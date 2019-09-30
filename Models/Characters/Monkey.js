@@ -10,4 +10,7 @@ class Monkey extends Pawn{
         // AllowedTerrains
         super()
     }
+    show(){
+        
+    }
 }

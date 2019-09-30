@@ -1,13 +1,13 @@
 let grid=[];
-let ROW_SIZE=10;
-let COL_SIZE=10;
+let ROW_SIZE=12;
+let COL_SIZE=12;
 let TILE_WIDTH;
 
 function setup(){
     createCanvas(700,700);
     background(0);
 
-    TILE_WIDTH = width/10;
+    TILE_WIDTH = width/12;
     for(var y=0;y<COL_SIZE;y++){
         let row = [];
         for(var x=0;x<ROW_SIZE;x++){
