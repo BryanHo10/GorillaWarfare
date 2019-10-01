@@ -7,8 +7,5 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
   },
-  externals: {
-    p5: 'p5'
-  }
 
 };
