@@ -1,4 +1,4 @@
-import "../lib/p5";
+import * as lib from "../index";
 
 export default class Tile{
     constructor(x,y,w,Occupant){
@@ -9,9 +9,9 @@ export default class Tile{
     }
     
     show(){
-        fill(0);
-        stroke(255);
-        rect(this.x*this.w,this.y*this.w,this.w-1,this.w-1);
+        lib.P5.fill(0);
+        lib.P5.stroke(255);
+        lib.P5.rect(this.x*this.w,this.y*this.w,this.w-1,this.w-1);
         if(this.Occupant != null){
             this.Occupant.show();
         }

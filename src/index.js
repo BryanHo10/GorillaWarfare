@@ -19,4 +19,4 @@ let s = (sk) => {
 
 
 
-const P5 = new p5(s);
+export const P5 = new p5(s);
