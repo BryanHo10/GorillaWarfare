@@ -12,11 +12,16 @@ export default class Board{
         this.TILE_WIDTH = boardWidth/this.ROW_SIZE;
     }
     createNewGrid(){
-
+        let occupant;
         for(var x=0;x<this.COL_SIZE;x++){
             let row = [];
             for(var y=0;y<this.ROW_SIZE;y++){
-                row[y]=new Tile(x,y,this.TILE_WIDTH,new Monkey(x,y));
+                if(y >this.ROW_SIZE-3 || y < 2)
+                    occupant = new Monkey(x,y);
+                else
+                    occupant = null;
+
+                row[y]=new Tile(x,y,this.TILE_WIDTH,occupant);
             }
             this.grid.push(row);
         }
@@ -34,7 +39,12 @@ export default class Board{
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
         console.log(this.grid[tileX][tileY]);
-        this.grid[tileX][tileY].Occupant.changeColor();
+        try{
+            this.grid[tileX][tileY].Occupant.changeColor();
+        }
+        catch(exception){
+            console.log("No Occupants in location")
+        }
     }
 
 }
