@@ -1,0 +1,31 @@
+{
+  "name": "GorillaWarfare",
+  "version": "1.0.0",
+  "description": "Modded Chess with Artificial Intelligence Integration",
+  "main": "webpack.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BryanHo10/GorillaWarfare.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BryanHo10/GorillaWarfare/issues"
+  },
+  "homepage": "https://github.com/BryanHo10/GorillaWarfare#readme",
+  "devDependencies": {
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}

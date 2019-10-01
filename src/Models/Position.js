@@ -1,5 +1,5 @@
-import {Terrains,Movesets} from './Properties.js';
-class Position{
+import {Terrains} from './Properties.js';
+export default class Position{
     constructor(x,y){
         this.x = 0;
         this.y = 0;

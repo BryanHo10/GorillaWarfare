@@ -1,11 +1,11 @@
-import {Terrains,Movesets} from '../Properties.js';
+import {Terrains} from '../Properties.js';
 
-class Pawn{
-    constructor(HealthPoints,Damage,Moveset,AllowedTerrains){
+export default class Pawn{
+    constructor(HealthPoints,Damage,StepCount,AllowedTerrains){
         this.Position = new Position(0,0);
         this.HealthPoints = HealthPoints;
         this.Damage = Damage;
-        this.Moveset = Moveset;
+        this.StepCount = StepCount;
         this.AllowedTerrains = AllowedTerrains;
 
     }
@@ -19,7 +19,7 @@ class Pawn{
 
     }
     /**
-     * 
+     * Target's HealthPoints decrement by Damage of current object
      * @param {Pawn} target 
      */
     attackPawn(target){
