@@ -9,13 +9,16 @@ export default class Tile{
     }
     
     show(){
-        lib.P5.fill(0);
-        lib.P5.stroke(255);
-        lib.P5.rect(this.x*this.w,this.y*this.w,this.w-1,this.w-1);
-        if(this.Occupant != null){
+        if(this.Occupant){
             this.Occupant.show();
         }
-        console.log("now");
+        else{
+            lib.P5.fill(255, 204, 0);
+            
+        }
+        lib.P5.stroke(255);
+        lib.P5.rect(this.x*this.w,this.y*this.w,this.w-1,this.w-1);
+        
     }
     
 }

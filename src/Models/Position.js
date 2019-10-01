@@ -1,8 +1,8 @@
 import {Terrains} from './Properties.js';
 export default class Position{
     constructor(x,y){
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.Terrain = Terrains.GRASSLANDS;
     }
     /**
