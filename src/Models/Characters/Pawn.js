@@ -10,6 +10,7 @@ export default class Pawn{
         this.StepCount = StepCount;
         this.AllowedTerrains = AllowedTerrains;
         this.w = lib.TileLength;
+        this.isActive = false;
         this.currentColor = [255, 204, 0];
 
     }

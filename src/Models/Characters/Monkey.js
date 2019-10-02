@@ -20,8 +20,12 @@ export default class Monkey extends Pawn{
         this.currentColor = [20, 204, 255];
     }
     changeColor(){
-        this.currentColor = [20, 102, 90];
+        if(!this.isActive)
+            this.currentColor = [20, 102, 90];
+        else
+            this.currentColor = [20, 204, 255];
         this.show();
+        this.isActive = !this.isActive;
     }
     show(){
         lib.P5.fill(this.currentColor);
