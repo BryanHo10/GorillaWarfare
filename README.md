@@ -16,12 +16,12 @@ Load Dependencies into your Project
 ```
 npm install
 ```
+
 ### Build
 Bundle and build code with:
 ```
 npm run build
 ```
-
 
 ## Dependencies
 - p5 :: [Reference](https://p5js.org/reference/)
