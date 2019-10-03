@@ -11,8 +11,6 @@ export default class Pawn{
     }
     /**
      * Retrieves List of valid positions on turn
-     * 
-     * 
      * @return {Position[]} List of board positions
      */
     getAvailableMoves(){
@@ -25,6 +23,9 @@ export default class Pawn{
     attackPawn(target){
 
     }
+    /**
+     * Default display of pawn
+     */
     show(){
 
     }

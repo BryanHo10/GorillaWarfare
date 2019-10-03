@@ -1,9 +1,9 @@
 import {Terrains} from '../Properties.js';
 import Pawn from "./Pawn.js";
 
-export default class Monkey extends Pawn{
+export default class Cheetah extends Pawn{
     constructor(){
-        // Monkey
+        // Cheetah
         // ---------------
         // HealthPoints 
         // Damage
