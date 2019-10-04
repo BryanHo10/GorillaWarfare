@@ -1,4 +1,5 @@
 import * as lib from "../index";
+import {Terrains} from "./Properties";
 
 export default class Tile{
     constructor(x,y,w,Occupant){
@@ -6,14 +7,35 @@ export default class Tile{
         this.y=y;
         this.w=w; 
         this.Occupant = Occupant;
+        this.Terrain = Terrains.GRASSLANDS;
     }
-    
+    /**
+     * Sets position's terrain property to value
+     * @param {Terrains} input 
+     */
+    setTerrain(input){
+        this.Terrain = input;
+    }
     show(){
         if(this.Occupant){
             this.Occupant.show();
         }
         else{
-            lib.P5.fill(255, 204, 0);
+            switch(this.Terrain){
+                case Terrains.GRASSLANDS:
+                    lib.P5.fill(190, 162, 61);
+                    break;
+                case Terrains.TREE:
+                    lib.P5.fill(79, 172, 79);
+                    break;
+                case Terrains.Lake:
+                    lib.P5.fill(81, 170, 164);
+                    break;
+                default:
+                    lib.P5.fill(127);
+                    break;
+            }
+            
             
         }
         lib.P5.stroke(255);
