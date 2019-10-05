@@ -1,6 +1,16 @@
 # GorillaWarfareAI
 Modded Chess with Artificial Intelligence Integration
 
+## Game Rules
+
+#### Character Properties
+
+All Character pieces have designated properties including: 
+> ( Heatlh Points, Attack Damage, Step Count, Allowed Terrains ) 
+
+#### Objective
+
+
 ### Setup
 
 Install Nodejs and npm [here](https://nodejs.org/en/).

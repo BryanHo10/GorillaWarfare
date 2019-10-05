@@ -14,7 +14,10 @@ let s = (sk) => {
         game = new Board(700,700,TileLength);  
         game.createNewGrid();
         game.tryPlaceTerrainTiles(2,4,2,4,Terrains.LAKE);  
-        game.tryPlaceTerrainTiles(8,4,2,4,Terrains.LAKE);  
+        game.tryPlaceTerrainTiles(8,4,2,4,Terrains.LAKE);
+        game.tryPlaceTerrainTiles(0,4,1,4,Terrains.TREE);
+        game.tryPlaceTerrainTiles(11,4,1,4,Terrains.TREE)
+        
     }
 
     sk.draw = () =>{

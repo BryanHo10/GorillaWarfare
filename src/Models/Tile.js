@@ -28,7 +28,7 @@ export default class Tile{
                 case Terrains.TREE:
                     lib.P5.fill(79, 172, 79);
                     break;
-                case Terrains.Lake:
+                case Terrains.LAKE:
                     lib.P5.fill(81, 170, 164);
                     break;
                 default:
