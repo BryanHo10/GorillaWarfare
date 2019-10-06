@@ -32,14 +32,15 @@ export default class Board{
                 let currentAdjacent = this.checkAdjacentCells(pos);
                 console.log(currentAdjacent);
                 // Remove duplicate positions  
-                adjacentTiles.concat(currentAdjacent.filter( (elem) => {
+                adjacentTiles = adjacentTiles.concat(currentAdjacent.filter( (elem) => {
                     return !adjacentTiles.includes( elem );
                   } ));
+                  console.log(adjacentTiles);
 
             }
 
             queue = adjacentTiles;
-            possiblePositions.concat(adjacentTiles);
+            possiblePositions = possiblePositions.concat(adjacentTiles);
 
             stepCounter+=1;
             // console.log(possiblePositions,stepCounter,queue,adjacentTiles);
