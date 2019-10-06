@@ -19,7 +19,7 @@ export default class Pawn{
      * @param {Pawn} target 
      */
     attackPawn(target){
-
+        target.HealthPoints-=this.Damage;
     }
     /**
      * Default display of pawn
