@@ -15,13 +15,6 @@ export default class Pawn{
 
     }
     /**
-     * Retrieves List of valid positions on turn
-     * @return {Position[]} List of board positions
-     */
-    getAvailableMoves(){
-
-    }
-    /**
      * Target's HealthPoints decrement by Damage of current object
      * @param {Pawn} target 
      */

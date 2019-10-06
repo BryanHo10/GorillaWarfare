@@ -8,6 +8,7 @@ export default class Tile{
         this.w=w; 
         this.Occupant = Occupant;
         this.Terrain = Terrains.GRASSLANDS;
+        this.isHighlight=false;
     }
     /**
      * Sets position's terrain property to value
@@ -16,10 +17,15 @@ export default class Tile{
     setTerrain(input){
         this.Terrain = input;
     }
+
     show(){
-        if(this.Occupant){
+        if(this.isHighlight){
+            lib.P5.fill(0);
+        }
+        else if(this.Occupant){
             this.Occupant.show();
         }
+        
         else{
             switch(this.Terrain){
                 case Terrains.GRASSLANDS:
