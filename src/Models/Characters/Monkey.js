@@ -11,6 +11,8 @@ export default class Monkey extends Pawn{
         // StepCount
         // AllowedTerrains
         super(
+            x,
+            y,
             4,                                  // Health Points
             1,                                  // Damage
             2,                                  // Step Count
@@ -18,6 +20,7 @@ export default class Monkey extends Pawn{
         );
         this.w = lib.TileLength;
         this.currentColor = [20, 204, 255];
+        this.isActive = false;
     }
     changeColor(){
         if(!this.isActive)

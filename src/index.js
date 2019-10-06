@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Board from "./Models/Board.js"
 import * as p5 from "p5";
 import {Terrains} from "./Models/Properties";
+import Position from "./Models/Position";
 
 const TileLength = 12;
 
@@ -13,10 +14,10 @@ let s = (sk) => {
         sk.background(0);
         game = new Board(700,700,TileLength);  
         game.createNewGrid();
-        game.tryPlaceTerrainTiles(2,4,2,4,Terrains.LAKE);  
-        game.tryPlaceTerrainTiles(8,4,2,4,Terrains.LAKE);
-        game.tryPlaceTerrainTiles(0,4,1,4,Terrains.TREE);
-        game.tryPlaceTerrainTiles(11,4,1,4,Terrains.TREE)
+        game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
+        game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
+        game.tryPlaceTerrainTiles(new Position(0,4),1,4,Terrains.TREE);
+        game.tryPlaceTerrainTiles(new Position(11,4),1,4,Terrains.TREE)
         
     }
 
@@ -25,6 +26,7 @@ let s = (sk) => {
     }
     sk.mouseClicked = () =>{
         game.showPawn(sk.mouseX,sk.mouseY);
+        
     }
 }
 
