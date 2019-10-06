@@ -71,9 +71,14 @@ export default class Board{
         
     }
     isValidPosition(currentPos){
-        if(!this.isWithinBoardBoundaries(currentPos) || this.grid[currentPos.x][currentPos.y].Occupant != null)
-            return false;
-        return true;
+        if(this.isWithinBoardBoundaries(currentPos)){
+            console.log(currentPos);
+            if(this.grid[currentPos.x][currentPos.y].Occupant != null){
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -98,9 +103,9 @@ export default class Board{
 
     isWithinBoardBoundaries(position){
 
-        if(position.x < 0 || position.x > this.ROW_SIZE)
+        if(position.x < 0 || position.x >= this.ROW_SIZE)
             return false;
-        else if(position.y < 0 || position.y > this.COL_SIZE)
+        else if(position.y < 0 || position.y >= this.COL_SIZE)
             return false;
         return true;
 
