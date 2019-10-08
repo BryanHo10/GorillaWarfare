@@ -29,6 +29,26 @@ export default class Pawn{
     }
     getAvailableAttacks(direction){
 
+        let possibleAttackTargets = [];
+        switch(direction){
+            case Direction.NORTH:
+                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y-1));
+                break;
+            case Direction.SOUTH:
+                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y+1));
+                break;
+            case Direction.WEST:
+                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y));
+                break;
+            case Direction.EAST:
+                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y));
+                break;
+            default:
+                break;
+        }
+
+        return possibleAttackTargets;
+        
     }
     changeColor(){
         this.currentColor = [255, 204, 0];

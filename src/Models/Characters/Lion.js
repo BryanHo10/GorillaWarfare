@@ -21,7 +21,6 @@ export default class Lion extends Pawn{
         this.w = lib.TileLength;
         this.currentColor = [20, 204, 255];
     }
-    
     changeColor(){
         if(!this.isActive)
             this.currentColor = [20, 102, 90];
