@@ -11,9 +11,11 @@ export default class Elephant extends Pawn{
         // StepCount
         // AllowedTerrains
         super(
-            4,                                  // Health Points
-            1,                                  // Damage
-            2,                                  // Step Count
+            x,
+            y,
+            12,                                  // Health Points
+            2,                                  // Damage
+            1,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.w = lib.TileLength;

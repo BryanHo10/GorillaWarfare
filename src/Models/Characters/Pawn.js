@@ -27,6 +27,9 @@ export default class Pawn{
     show(){
 
     }
+    getAvailableAttacks(direction){
+
+    }
     changeColor(){
         this.currentColor = [255, 204, 0];
         this.show();
