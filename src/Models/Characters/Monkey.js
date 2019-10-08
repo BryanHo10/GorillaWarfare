@@ -48,13 +48,12 @@ export default class Monkey extends Pawn{
             default:
                 break;
         }
-        for(let x = this.Position.x;x<=this.Position.x+xRange;x+=incrementation){
+        for(let x = this.Position.x;x!=this.Position.x+xRange;x+=incrementation){
             possibleAttackTargets.push(new Position(x,this.Position.y));
         }
-        for(let y = this.Position.y;y<=this.Position.y+yRange;y+=incrementation){
+        for(let y = this.Position.y;y!=this.Position.y+yRange;y+=incrementation){
             possibleAttackTargets.push(new Position(this.Position.x,y));
         }
-        console.log(possibleAttackTargets);
         return possibleAttackTargets;
         
     }
