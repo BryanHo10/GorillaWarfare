@@ -3,7 +3,7 @@ import Pawn from "./Pawn.js";
 import * as lib from "../../index";
 
 export default class Elephant extends Pawn{
-    constructor(){
+    constructor(x,y){
         // Elephant
         // ---------------
         // HealthPoints 
@@ -19,7 +19,7 @@ export default class Elephant extends Pawn{
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.w = lib.TileLength;
-        this.currentColor = [20, 204, 255];
+        this.currentColor = [128, 64, 64];
     }
     getAvailableAttacks(direction){
 
@@ -57,12 +57,13 @@ export default class Elephant extends Pawn{
         
     }
     changeColor(){
-        if(!this.isActive)
-            this.currentColor = [20, 102, 90];
-        else
-            this.currentColor = [20, 204, 255];
-        this.show();
         this.isActive = !this.isActive;
+
+        if(!this.isActive)
+            this.currentColor = [128, 64, 64];
+        else
+            this.currentColor = [86, 44, 44];
+        this.show();
     }
     show(){
         lib.P5.fill(this.currentColor);

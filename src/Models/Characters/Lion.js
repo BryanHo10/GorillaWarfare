@@ -3,7 +3,7 @@ import Pawn from "./Pawn.js";
 import * as lib from "../../index";
 
 export default class Lion extends Pawn{
-    constructor(){
+    constructor(x,y){
         // Lion
         // ---------------
         // HealthPoints 
@@ -19,15 +19,16 @@ export default class Lion extends Pawn{
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.w = lib.TileLength;
-        this.currentColor = [20, 204, 255];
+        this.currentColor = [255, 128, 64];
     }
     changeColor(){
-        if(!this.isActive)
-            this.currentColor = [20, 102, 90];
-        else
-            this.currentColor = [20, 204, 255];
-        this.show();
         this.isActive = !this.isActive;
+        if(!this.isActive)
+            this.currentColor = [255, 128, 64];
+        else
+            this.currentColor = [219, 71, 0];
+        this.show();
+        
     }
     show(){
         lib.P5.fill(this.currentColor);
