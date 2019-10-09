@@ -58,6 +58,8 @@ export default class Monkey extends Pawn{
         
     }
     changeColor(){
+        
+
         if(!this.isActive)
             this.currentColor = [20, 102, 90];
         else

@@ -1,5 +1,10 @@
 import Tile from "./Tile.js";
 import Monkey from "./Characters/Monkey";
+import Lion from "./Characters/Lion"
+import Gorilla from "./Characters/Gorilla";
+import Elephant from "./Characters/Elephant"
+import Chicken from "./Characters/Chicken";
+import Cheetah from "./Characters/Cheetah"
 import Position from "./Position";
 import {Direction} from "./Properties";
 import Pawn from "./Characters/Pawn";
@@ -111,6 +116,25 @@ export default class Board{
         return true;
 
     }
+    generateRandomPawn(x,y){
+        let randNum = Math.floor(Math.random() * Math.floor(6));
+        switch(randNum){
+            case 0:
+                return new Monkey(x,y);
+            case 1:
+                return new Chicken(x,y);
+            case 2:
+                return new Lion(x,y);
+            case 3:
+                return new Gorilla(x,y);
+            case 4:
+                return new Elephant(x,y);
+            case 5:
+                return new Cheetah(x,y);
+        }
+        return null;
+
+    }
     /**
      * Creates a Grid of [ROW_SIZE] by [COL_SIZE] Tiles
      */
@@ -120,7 +144,7 @@ export default class Board{
             let row = [];
             for(var y=0;y<this.ROW_SIZE;y++){
                 if(y >this.ROW_SIZE-3 || y < 2)
-                    occupant = new Monkey(x,y);
+                    occupant = this.generateRandomPawn(x,y);
                 else
                     occupant = null;
 
@@ -143,18 +167,16 @@ export default class Board{
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentOccupant = this.grid[tileX][tileY].Occupant; 
         if(currentOccupant){
+            console.log(currentOccupant);
             currentOccupant.changeColor();
-            // let availablePos = this.getAvailableMoves(currentOccupant);
-            let availablePos = currentOccupant.getAvailableAttacks(Direction.NORTH);
-            availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.SOUTH));
-            availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.EAST));
-            availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.WEST));
-            console.log(availablePos);
+            let availablePos = this.getAvailableMoves(currentOccupant);
+            // let availablePos = currentOccupant.getAvailableAttacks(Direction.NORTH);
+            // availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.SOUTH));
+            // availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.EAST));
+            // availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.WEST));
             availablePos = availablePos.filter( (elem) => {
-                console.log(this.isWithinBoardBoundaries( elem ));
                 return this.isWithinBoardBoundaries( elem );
               } );
-              console.log(availablePos);
             for(let pos of availablePos){
                 this.grid[pos.x][pos.y].isHighlight = true;
             }

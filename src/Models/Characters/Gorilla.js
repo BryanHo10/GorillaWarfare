@@ -1,9 +1,9 @@
-import {Terrains} from '../Properties.js';
+import {Terrains,Direction} from '../Properties.js';
 import Pawn from "./Pawn.js";
 import * as lib from "../../index";
 
 export default class Gorilla extends Pawn{
-    constructor(){
+    constructor(x,y){
         // Gorilla
         // ---------------
         // HealthPoints 
@@ -19,15 +19,17 @@ export default class Gorilla extends Pawn{
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.w = lib.TileLength;
-        this.currentColor = [20, 204, 255];
+        this.currentColor = [106, 106, 106];
+        this.isActive = false;
     }
     changeColor(){
-        if(!this.isActive)
-            this.currentColor = [20, 102, 90];
-        else
-            this.currentColor = [20, 204, 255];
-        this.show();
         this.isActive = !this.isActive;
+
+        if(!this.isActive)
+            this.currentColor = [106, 106, 106];
+        else
+            this.currentColor = [71, 71, 71];
+        this.show();
     }
     show(){
         lib.P5.fill(this.currentColor);

@@ -1,9 +1,9 @@
-import {Terrains} from '../Properties.js';
+import {Terrains,Direction} from '../Properties.js';
 import Pawn from "./Pawn.js";
 import * as lib from "../../index";
 
 export default class Chicken extends Pawn{
-    constructor(){
+    constructor(x,y){
         // Chicken
         // ---------------
         // HealthPoints 
@@ -19,15 +19,17 @@ export default class Chicken extends Pawn{
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.w = lib.TileLength;
-        this.currentColor = [20, 204, 255];
+        this.currentColor = [255, 255, 128];
+        this.isActive = false;
     }
     changeColor(){
-        if(!this.isActive)
-            this.currentColor = [20, 102, 90];
-        else
-            this.currentColor = [20, 204, 255];
-        this.show();
         this.isActive = !this.isActive;
+
+        if(!this.isActive)
+            this.currentColor = [255, 255, 128];
+        else
+            this.currentColor = [255, 255, 45];
+        this.show();
     }
     show(){
         lib.P5.fill(this.currentColor);

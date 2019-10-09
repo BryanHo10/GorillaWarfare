@@ -1,4 +1,4 @@
-import {Terrains} from '../Properties.js';
+import {Terrains,Direction} from '../Properties.js';
 import Position from '../Position';
 import * as lib from '../../index';
 
@@ -32,16 +32,16 @@ export default class Pawn{
         let possibleAttackTargets = [];
         switch(direction){
             case Direction.NORTH:
-                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y-1));
+                possibleAttackTargets.push(new Position(this.Position.x,this.Position.y-1));
                 break;
             case Direction.SOUTH:
-                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y+1));
+                possibleAttackTargets.push(new Position(this.Position.x,this.Position.y+1));
                 break;
             case Direction.WEST:
-                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y));
+                possibleAttackTargets.push(new Position(this.Position.x-1,this.Position.y));
                 break;
             case Direction.EAST:
-                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y));
+                possibleAttackTargets.push(new Position(this.Position.x+1,this.Position.y));
                 break;
             default:
                 break;

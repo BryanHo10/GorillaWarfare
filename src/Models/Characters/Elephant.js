@@ -1,9 +1,10 @@
-import {Terrains} from '../Properties.js';
+import {Terrains,Direction} from '../Properties.js';
+import Position from "../Position";
 import Pawn from "./Pawn.js";
 import * as lib from "../../index";
 
 export default class Elephant extends Pawn{
-    constructor(){
+    constructor(x,y){
         // Elephant
         // ---------------
         // HealthPoints 
@@ -19,35 +20,36 @@ export default class Elephant extends Pawn{
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.w = lib.TileLength;
-        this.currentColor = [20, 204, 255];
+        this.currentColor = [128, 64, 64];
+        this.isActive = false;
     }
     getAvailableAttacks(direction){
 
         let possibleAttackTargets = [];
         switch(direction){
             case Direction.NORTH:
-                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y-1));
-                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y-2));
-                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y-1));
-                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y-1));
+                possibleAttackTargets.push(new Position(this.Position.x,this.Position.y-1));
+                possibleAttackTargets.push(new Position(this.Position.x,this.Position.y-2));
+                possibleAttackTargets.push(new Position(this.Position.x+1,this.Position.y-1));
+                possibleAttackTargets.push(new Position(this.Position.x-1,this.Position.y-1));
                 break;
             case Direction.SOUTH:
-                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y+1));
-                possibleAttackTargets.push(new this.Position(this.Position.x,this.Position.y+2));
-                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y+1));
-                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y+1));
+                possibleAttackTargets.push(new Position(this.Position.x,this.Position.y+1));
+                possibleAttackTargets.push(new Position(this.Position.x,this.Position.y+2));
+                possibleAttackTargets.push(new Position(this.Position.x+1,this.Position.y+1));
+                possibleAttackTargets.push(new Position(this.Position.x-1,this.Position.y+1));
                 break;
             case Direction.WEST:
-                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y));
-                possibleAttackTargets.push(new this.Position(this.Position.x-2,this.Position.y));
-                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y-1));
-                possibleAttackTargets.push(new this.Position(this.Position.x-1,this.Position.y+1));
+                possibleAttackTargets.push(new Position(this.Position.x-1,this.Position.y));
+                possibleAttackTargets.push(new Position(this.Position.x-2,this.Position.y));
+                possibleAttackTargets.push(new Position(this.Position.x-1,this.Position.y-1));
+                possibleAttackTargets.push(new Position(this.Position.x-1,this.Position.y+1));
                 break;
             case Direction.EAST:
-                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y));
-                possibleAttackTargets.push(new this.Position(this.Position.x+2,this.Position.y));
-                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y-1));
-                possibleAttackTargets.push(new this.Position(this.Position.x+1,this.Position.y+1));
+                possibleAttackTargets.push(new Position(this.Position.x+1,this.Position.y));
+                possibleAttackTargets.push(new Position(this.Position.x+2,this.Position.y));
+                possibleAttackTargets.push(new Position(this.Position.x+1,this.Position.y-1));
+                possibleAttackTargets.push(new Position(this.Position.x+1,this.Position.y+1));
                 break;
             default:
                 break;
@@ -57,12 +59,13 @@ export default class Elephant extends Pawn{
         
     }
     changeColor(){
-        if(!this.isActive)
-            this.currentColor = [20, 102, 90];
-        else
-            this.currentColor = [20, 204, 255];
-        this.show();
         this.isActive = !this.isActive;
+
+        if(!this.isActive)
+            this.currentColor = [128, 64, 64];
+        else
+            this.currentColor = [86, 44, 44];
+        this.show();
     }
     show(){
         lib.P5.fill(this.currentColor);
