@@ -11,8 +11,10 @@ export default class Chicken extends Pawn{
         // StepCount
         // AllowedTerrains
         super(
-            4,                                  // Health Points
-            1,                                  // Damage
+            x,
+            y,
+            5,                                  // Health Points
+            2,                                  // Damage
             2,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );

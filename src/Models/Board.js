@@ -1,6 +1,7 @@
 import Tile from "./Tile.js";
 import Monkey from "./Characters/Monkey";
 import Position from "./Position";
+import {Direction} from "./Properties";
 import Pawn from "./Characters/Pawn";
 import * as lib from "../index";
 
@@ -143,8 +144,17 @@ export default class Board{
         let currentOccupant = this.grid[tileX][tileY].Occupant; 
         if(currentOccupant){
             currentOccupant.changeColor();
-            let availablePos = this.getAvailableMoves(currentOccupant);
+            // let availablePos = this.getAvailableMoves(currentOccupant);
+            let availablePos = currentOccupant.getAvailableAttacks(Direction.NORTH);
+            availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.SOUTH));
+            availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.EAST));
+            availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.WEST));
             console.log(availablePos);
+            availablePos = availablePos.filter( (elem) => {
+                console.log(this.isWithinBoardBoundaries( elem ));
+                return this.isWithinBoardBoundaries( elem );
+              } );
+              console.log(availablePos);
             for(let pos of availablePos){
                 this.grid[pos.x][pos.y].isHighlight = true;
             }
