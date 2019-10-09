@@ -1,4 +1,4 @@
-import {Terrains} from '../Properties.js';
+import {Terrains,Direction} from '../Properties.js';
 import Pawn from "./Pawn.js";
 import * as lib from "../../index";
 
@@ -20,6 +20,7 @@ export default class Cheetah extends Pawn{
         );
         this.w = lib.TileLength;
         this.currentColor = [255, 128, 0];
+        this.isActive = false;
     }
 
     
