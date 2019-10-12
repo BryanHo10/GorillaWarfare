@@ -27,7 +27,7 @@ let s = (sk) => {
     sk.mouseClicked = () =>{
         if(sk.mouseX <=700 && sk.mouseX >=0){
             if(sk.mouseY <=700 && sk.mouseY >=0)
-                game.showPawn(sk.mouseX,sk.mouseY);
+                game.showPawnMoves(sk.mouseX,sk.mouseY);
         }
         
         

@@ -21,7 +21,11 @@ export default class Board{
 
         // Terrain Placements
         this.LakePositions = null;
-        this.TreePositions = null;     
+        this.TreePositions = null;   
+        
+        // Current States
+        this.highlightedTiles=[];
+        this.selectedPawn=null;
                                                 
     }
     /**
@@ -36,12 +40,10 @@ export default class Board{
             let adjacentTiles = [];
             for(let pos of queue){
                 let currentAdjacent = this.checkAdjacentCells(pos);
-                console.log(currentAdjacent);
                 // Remove duplicate positions  
                 adjacentTiles = adjacentTiles.concat(currentAdjacent.filter( (elem) => {
                     return !adjacentTiles.includes( elem );
                   } ));
-                  console.log(adjacentTiles);
 
             }
 
@@ -78,7 +80,6 @@ export default class Board{
     }
     isValidPosition(currentPos){
         if(this.isWithinBoardBoundaries(currentPos)){
-            console.log(currentPos);
             if(this.grid[currentPos.x][currentPos.y].Occupant != null){
                 return false;
             }
@@ -162,26 +163,47 @@ export default class Board{
     
         }
     }
-    showPawn(x,y){
+    showPawnMoves(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
-        let currentOccupant = this.grid[tileX][tileY].Occupant; 
-        if(currentOccupant){
-            console.log(currentOccupant);
-            currentOccupant.changeColor();
-            let availablePos = this.getAvailableMoves(currentOccupant);
-            // let availablePos = currentOccupant.getAvailableAttacks(Direction.NORTH);
-            // availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.SOUTH));
-            // availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.EAST));
-            // availablePos = availablePos.concat(currentOccupant.getAvailableAttacks(Direction.WEST));
+        let currentTile = this.grid[tileX][tileY]; 
+        this.selectedPawn = currentTile.Occupant;
+        
+        // If User selects one of the available moves that the Pawn can perform
+        if(this.highlightedState.moveTiles.includes(currentTile)){
+            // Move Pawn
+            this.unhighlightTiles();
+            
+        }
+        // If user doesn't select any of the moves that were given
+        // If User clicks on another Occupant than it's original caller
+        // 
+        if(currentTile.Occupant){
+            
+            currentTile.Occupant.changeColor();
+            let availablePos = this.getAvailableMoves(currentTile.Occupant);
+            
             availablePos = availablePos.filter( (elem) => {
                 return this.isWithinBoardBoundaries( elem );
               } );
+
             for(let pos of availablePos){
+                this.highlightedTiles.push(this.grid[pos.x][pos.y]);
                 this.grid[pos.x][pos.y].isHighlight = true;
             }
+            
         }
+        
         this.show();
+    }
+    unhighlightTiles(){
+        
+        for(let i=this.highlightedTiles.length-1;i>=0;i--){
+
+            this.highlightedTiles[i].isHighlight = false;
+            this.highlightedTiles.splice(i,1);
+            
+        }
     }
 
 }
