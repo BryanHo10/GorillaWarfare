@@ -166,20 +166,15 @@ export default class Board{
     showPawnMoves(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
-        let currentTile = this.grid[tileX][tileY]; 
-        this.selectedPawn = currentTile.Occupant;
-        
-        // If User selects one of the available moves that the Pawn can perform
-        if(this.highlightedState.moveTiles.includes(currentTile)){
-            // Move Pawn
-            this.unhighlightTiles();
-            
+        let currentTile = this.grid[tileX][tileY];
+
+        this.unhighlightTiles();
+
+        if(!currentTile.Occupant){
+
         }
-        // If user doesn't select any of the moves that were given
-        // If User clicks on another Occupant than it's original caller
-        // 
-        if(currentTile.Occupant){
-            
+        else if(currentTile.Occupant != this.selectedPawn){
+            this.unhighlightTiles();
             currentTile.Occupant.changeColor();
             let availablePos = this.getAvailableMoves(currentTile.Occupant);
             
@@ -191,8 +186,10 @@ export default class Board{
                 this.highlightedTiles.push(this.grid[pos.x][pos.y]);
                 this.grid[pos.x][pos.y].isHighlight = true;
             }
-            
+            this.selectedPawn = currentTile.Occupant;
         }
+
+
         
         this.show();
     }
