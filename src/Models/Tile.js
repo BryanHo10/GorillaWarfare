@@ -19,11 +19,10 @@ export default class Tile{
     }
 
     show(){
-        if(this.isHighlight){
-            lib.P5.fill(0);
-        }
-        else if(this.Occupant){
+        
+        if(this.Occupant){
             this.Occupant.show();
+            lib.P5.stroke(255);
         }
         
         else{
@@ -42,10 +41,12 @@ export default class Tile{
                     break;
             }
             
-            
+            lib.P5.stroke(255);
         }
-        lib.P5.stroke(255);
-        lib.P5.rect(this.x*this.w,this.y*this.w,this.w-1,this.w-1);
+        if(this.isHighlight){
+            lib.P5.stroke(0);
+        }
+        lib.P5.rect(this.x*this.w,this.y*this.w,this.w,this.w);
         
     }
     

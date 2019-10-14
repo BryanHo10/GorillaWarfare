@@ -175,7 +175,6 @@ export default class Board{
         }
         else if(currentTile.Occupant != this.selectedPawn){
             this.unhighlightTiles();
-            currentTile.Occupant.changeColor();
             let availablePos = this.getAvailableMoves(currentTile.Occupant);
             
             availablePos = availablePos.filter( (elem) => {
@@ -187,6 +186,9 @@ export default class Board{
                 this.grid[pos.x][pos.y].isHighlight = true;
             }
             this.selectedPawn = currentTile.Occupant;
+        }
+        else{
+            this.selectedPawn = null;
         }
 
 
