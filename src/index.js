@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Board from "./Models/Board.js"
 import * as p5 from "p5";
-import {Terrains} from "./Models/Properties";
+import {Terrains,Player,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
 
 const TileLength = 12;
@@ -26,8 +26,16 @@ let s = (sk) => {
     }
     sk.mouseClicked = () =>{
         if(sk.mouseX <=700 && sk.mouseX >=0){
-            if(sk.mouseY <=700 && sk.mouseY >=0)
-                game.showPawnMoves(sk.mouseX,sk.mouseY);
+            if(sk.mouseY <=700 && sk.mouseY >=0){
+                if(game.gameStatus == GameStates.MOVE){
+                    game.showPawnMoves(sk.mouseX,sk.mouseY);
+                }
+                else if(game.gameStatus == GameStates.ATTACK){
+                    game.showPawnAttack(sk.mouseX,sk.mouseY);
+                }
+                
+            }
+                
         }
         
         

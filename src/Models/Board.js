@@ -6,7 +6,7 @@ import Elephant from "./Characters/Elephant"
 import Chicken from "./Characters/Chicken";
 import Cheetah from "./Characters/Cheetah"
 import Position from "./Position";
-import {Direction} from "./Properties";
+import {Direction,Player,GameStates} from "./Properties";
 import Pawn from "./Characters/Pawn";
 import * as lib from "../index";
 
@@ -26,6 +26,10 @@ export default class Board{
         // Current States
         this.highlightedTiles=[];
         this.selectedPawn=null;
+        this.selectedTile = null;
+
+        // Game States
+        this.gameStatus=GameStates.MOVE;
                                                 
     }
     /**
@@ -168,10 +172,24 @@ export default class Board{
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
 
-        this.unhighlightTiles();
+        
 
-        if(!currentTile.Occupant){
-
+        if(this.highlightedTiles.includes(currentTile)){
+            // this.gameStatus = GameStates.ATTACK;
+            this.unhighlightTiles();
+            if(tileX != this.selectedTile.x || tileY != this.selectedTile.y){
+                this.grid[tileX][tileY].Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
+                this.grid[tileX][tileY].Occupant.Position.x = tileX;
+                this.grid[tileX][tileY].Occupant.Position.y = tileY;
+                this.grid[this.selectedTile.x][this.selectedTile.y].Occupant = null;
+            }
+            this.selectedPawn = null;
+            this.selectedTile = null;
+        }
+        else if(!currentTile.Occupant){
+            this.unhighlightTiles();
+            this.selectedPawn = null;
+            this.selectedTile = null;
         }
         else if(currentTile.Occupant != this.selectedPawn){
             this.unhighlightTiles();
@@ -186,9 +204,12 @@ export default class Board{
                 this.grid[pos.x][pos.y].isHighlight = true;
             }
             this.selectedPawn = currentTile.Occupant;
+            this.selectedTile = currentTile;
         }
         else{
+            this.unhighlightTiles();
             this.selectedPawn = null;
+            this.selectedTile = null;
         }
 
 
