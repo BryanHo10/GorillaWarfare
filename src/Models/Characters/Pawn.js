@@ -54,8 +54,8 @@ export default class Pawn{
         this.currentColor = [255, 204, 0];
         this.show();
     }
-    move(){
-
+    move(targetPos){
+        this.Position = targetPos;
     }
 
 
