@@ -174,11 +174,46 @@ export default class Board{
     
         }
     }
+<<<<<<< HEAD
     /**
      * Highlights current Pawn's available move
      * @param {number} x 
      * @param {number} y 
      */
+=======
+    showPawnAttack(x,y){
+        let tileX = Math.floor(x/this.TILE_WIDTH);
+        let tileY = Math.floor(y/this.TILE_WIDTH);
+        let currentTile = this.grid[tileX][tileY];
+
+        this.unhighlightTiles();
+        let availablePos = currentTile.Occupant.getAvailableAttacks(Direction.WEST);
+        availablePos = availablePos.concat(currentTile.Occupant.getAvailableAttacks(Direction.NORTH));
+        availablePos = availablePos.concat(currentTile.Occupant.getAvailableAttacks(Direction.SOUTH));
+        availablePos = availablePos.concat(currentTile.Occupant.getAvailableAttacks(Direction.EAST));
+        
+        availablePos = availablePos.filter( (elem) => {
+            return this.isWithinBoardBoundaries( elem );
+            } );
+
+        for(let pos of availablePos){
+            this.highlightedTiles.push(this.grid[pos.x][pos.y]);
+            this.grid[pos.x][pos.y].isHighlight = true;
+        }
+
+        
+
+
+
+
+
+
+        this.selectedPawn = null;
+        this.selectedTile = null;
+        
+        this.show();
+    }
+>>>>>>> highlight Attak WIP
     showPawnMoves(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
@@ -189,7 +224,7 @@ export default class Board{
         }
 
         if(this.highlightedTiles.includes(currentTile)){
-            // this.gameStatus = GameStates.ATTACK;
+            this.gameStatus = GameStates.ATTACK;
             this.unhighlightTiles();
             if(tileX != this.selectedTile.x || tileY != this.selectedTile.y){
                 this.grid[tileX][tileY].Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
@@ -197,6 +232,7 @@ export default class Board{
                 this.grid[tileX][tileY].Occupant.Position.y = tileY;
                 this.grid[this.selectedTile.x][this.selectedTile.y].Occupant = null;
             }
+<<<<<<< HEAD
             this.selectedPawn = null;
             this.selectedTile = null;
 
@@ -205,6 +241,8 @@ export default class Board{
                 this.currentPlayer = Player.TWO;
             else
                 this.currentPlayer = Player.ONE;
+=======
+>>>>>>> highlight Attak WIP
 
         }
         else if(!currentTile.Occupant){

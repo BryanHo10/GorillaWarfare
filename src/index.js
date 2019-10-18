@@ -24,6 +24,7 @@ let s = (sk) => {
     sk.draw = () =>{
         game.show();
     }
+    
     sk.mouseClicked = () =>{
         if(sk.mouseX <=700 && sk.mouseX >=0){
             if(sk.mouseY <=700 && sk.mouseY >=0){
