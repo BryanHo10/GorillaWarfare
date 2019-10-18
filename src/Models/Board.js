@@ -187,6 +187,10 @@ export default class Board{
         let currentTile = this.grid[tileX][tileY];
 
         this.unhighlightTiles();
+
+        if(!currentTile.Occupant)
+            return;
+
         let availablePos = currentTile.Occupant.getAvailableAttacks(Direction.WEST);
         availablePos = availablePos.concat(currentTile.Occupant.getAvailableAttacks(Direction.NORTH));
         availablePos = availablePos.concat(currentTile.Occupant.getAvailableAttacks(Direction.SOUTH));
