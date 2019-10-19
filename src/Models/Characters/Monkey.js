@@ -19,7 +19,6 @@ export default class Monkey extends Pawn{
             2,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
-        this.w = lib.TileLength;
         this.currentColor = [20, 204, 255];
         this.isActive = false;
     }

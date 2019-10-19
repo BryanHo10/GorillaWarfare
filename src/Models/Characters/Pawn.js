@@ -1,4 +1,4 @@
-import {Terrains,Direction} from '../Properties.js';
+import {Terrains,Direction,Player} from '../Properties.js';
 import Position from '../Position';
 import * as lib from '../../index';
 
@@ -10,6 +10,7 @@ export default class Pawn{
         this.StepCount = StepCount;
         this.AllowedTerrains = AllowedTerrains;
         this.w = lib.TileLength;
+        this.Owner = Player.ONE;
         this.isActive = false;
         this.currentColor = [255, 204, 0];
 

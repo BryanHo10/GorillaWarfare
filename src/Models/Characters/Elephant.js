@@ -19,7 +19,6 @@ export default class Elephant extends Pawn{
             1,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
-        this.w = lib.TileLength;
         this.currentColor = [128, 64, 64];
         this.isActive = false;
     }

@@ -18,7 +18,6 @@ export default class Gorilla extends Pawn{
             3,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
-        this.w = lib.TileLength;
         this.currentColor = [106, 106, 106];
         this.isActive = false;
     }
