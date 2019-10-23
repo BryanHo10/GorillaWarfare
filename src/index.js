@@ -28,11 +28,19 @@ let s = (sk) => {
     sk.mouseClicked = () =>{
         if(sk.mouseX <=700 && sk.mouseX >=0){
             if(sk.mouseY <=700 && sk.mouseY >=0){
-                if(game.gameStatus == GameStates.MOVE){
-                    game.showPawnMoves(sk.mouseX,sk.mouseY);
-                }
-                else if(game.gameStatus == GameStates.ATTACK){
-                    game.showPawnAttack(sk.mouseX,sk.mouseY);
+
+                switch(game.gameStatus){
+                    case GameStates.HIGHLIGHT_MOVE:
+                    case GameStates.MOVE:
+                        game.showPawnMoves(sk.mouseX,sk.mouseY);
+                        break;
+                    case GameStates.HIGHLIGHT_ATTACK:
+                        break;
+                    case GameStates.ATTACK:
+                        game.showPawnAttack(sk.mouseX,sk.mouseY);
+                        break;
+                    default:
+                        break;
                 }
                 
             }
