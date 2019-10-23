@@ -18,7 +18,6 @@ export default class Cheetah extends Pawn{
             5,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
-        this.w = lib.TileLength;
         this.currentColor = [255, 128, 0];
         this.isActive = false;
     }

@@ -18,7 +18,6 @@ export default class Chicken extends Pawn{
             2,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
-        this.w = lib.TileLength;
         this.currentColor = [255, 255, 128];
         this.isActive = false;
     }

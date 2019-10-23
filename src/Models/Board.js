@@ -30,6 +30,7 @@ export default class Board{
 
         // Game States
         this.gameStatus=GameStates.MOVE;
+        this.currentPlayer = Player.ONE;
                                                 
     }
     /**
@@ -148,8 +149,14 @@ export default class Board{
         for(var x=0;x<this.COL_SIZE;x++){
             let row = [];
             for(var y=0;y<this.ROW_SIZE;y++){
-                if(y >this.ROW_SIZE-3 || y < 2)
+                if(y < 2){
                     occupant = this.generateRandomPawn(x,y);
+                    occupant.Player = Player.ONE;
+                }
+                else if(y >this.ROW_SIZE-3 || y < 2){
+                    occupant = this.generateRandomPawn(x,y);
+                    occupant.Player = Player.TWO;
+                }
                 else
                     occupant = null;
 
@@ -167,12 +174,19 @@ export default class Board{
     
         }
     }
+    /**
+     * Highlights current Pawn's available move
+     * @param {number} x 
+     * @param {number} y 
+     */
     showPawnMoves(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
 
-        
+        if(currentTile.Occupant!=null && currentTile.Occupant.Player != this.currentPlayer){
+            return;
+        }
 
         if(this.highlightedTiles.includes(currentTile)){
             // this.gameStatus = GameStates.ATTACK;
@@ -185,6 +199,13 @@ export default class Board{
             }
             this.selectedPawn = null;
             this.selectedTile = null;
+
+            // Switch Player Turn
+            if(this.currentPlayer == Player.ONE)
+                this.currentPlayer = Player.TWO;
+            else
+                this.currentPlayer = Player.ONE;
+
         }
         else if(!currentTile.Occupant){
             this.unhighlightTiles();

@@ -4,9 +4,11 @@ export const Terrains = {
     LAKE: 2
 }
 export const GameStates = {
-    ATTACK:0,
-    MOVE:1,
-    IDLE:2
+    HIGHLIGHT_ATTACK:0,
+    ATTACK:1,
+    HIGHLIGHT_MOVE:2,
+    MOVE:3,
+    IDLE:4
 }
 export const Player = {
     ONE:1,

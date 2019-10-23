@@ -18,7 +18,6 @@ export default class Lion extends Pawn{
             3,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
-        this.w = lib.TileLength;
         this.currentColor = [255, 128, 64];
         this.isActive = false;
     }
