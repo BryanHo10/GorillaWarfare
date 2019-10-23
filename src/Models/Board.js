@@ -184,6 +184,10 @@ export default class Board{
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
 
+        if(currentTile.Occupant!=null && currentTile.Occupant.Player != this.currentPlayer){
+            return;
+        }
+
         if(this.highlightedTiles.includes(currentTile)){
             // this.gameStatus = GameStates.ATTACK;
             this.unhighlightTiles();
