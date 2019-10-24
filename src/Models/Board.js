@@ -151,11 +151,11 @@ export default class Board{
             for(var y=0;y<this.ROW_SIZE;y++){
                 if(y < 2){
                     occupant = this.generateRandomPawn(x,y);
-                    occupant.Player = Player.ONE;
+                    occupant.Owner = Player.ONE;
                 }
                 else if(y >this.ROW_SIZE-3 || y < 2){
                     occupant = this.generateRandomPawn(x,y);
-                    occupant.Player = Player.TWO;
+                    occupant.Owner = Player.TWO;
                 }
                 else
                     occupant = null;
@@ -291,7 +291,7 @@ export default class Board{
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
 
-        if(currentTile.Occupant!=null && currentTile.Occupant.Player != this.currentPlayer){
+        if(currentTile.Occupant!=null && currentTile.Occupant.Owner != this.currentPlayer){
             return;
         }
 
