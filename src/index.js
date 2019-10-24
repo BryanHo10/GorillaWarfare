@@ -35,9 +35,10 @@ let s = (sk) => {
                         game.showPawnMoves(sk.mouseX,sk.mouseY);
                         break;
                     case GameStates.HIGHLIGHT_ATTACK:
+                        game.showPawnAttack(sk.mouseX,sk.mouseY);
                         break;
                     case GameStates.ATTACK:
-                        game.showPawnAttack(sk.mouseX,sk.mouseY);
+                        game.attackTargetPawn(sk.mouseX,sk.mouseY);
                         break;
                     default:
                         break;
