@@ -10,7 +10,7 @@ export const GameStates = {
     MOVE:3,
     IDLE:4
 }
-export const Player = {
+export const Players = {
     ONE:1,
     TWO:2
 }
@@ -22,5 +22,5 @@ export const Direction = {
 
 }
 export const PieceNum = {
-    
+
 }
