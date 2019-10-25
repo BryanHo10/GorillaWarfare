@@ -151,11 +151,11 @@ export default class Board{
             for(var y=0;y<this.ROW_SIZE;y++){
                 if(y < 2){
                     occupant = this.generateRandomPawn(x,y);
-                    occupant.Player = Player.ONE;
+                    occupant.Owner = Player.ONE;
                 }
                 else if(y >this.ROW_SIZE-3 || y < 2){
                     occupant = this.generateRandomPawn(x,y);
-                    occupant.Player = Player.TWO;
+                    occupant.Owner = Player.TWO;
                 }
                 else
                     occupant = null;
@@ -179,32 +179,124 @@ export default class Board{
      * @param {number} x 
      * @param {number} y 
      */
+    showPawnAttackDirection(){
+
+        let availablePos = [new Position(this.selectedPawn.Position.x-1,this.selectedPawn.Position.y),
+                            new Position(this.selectedPawn.Position.x+1,this.selectedPawn.Position.y),
+                            new Position(this.selectedPawn.Position.x,this.selectedPawn.Position.y-1),
+                            new Position(this.selectedPawn.Position.x,this.selectedPawn.Position.y+1)];
+
+        availablePos = availablePos.filter( (elem) => {
+            return this.isWithinBoardBoundaries( elem );
+            } );
+
+        for(let pos of availablePos){
+            this.highlightedTiles.push(this.grid[pos.x][pos.y]);
+            this.grid[pos.x][pos.y].isHighlight = true;
+        }
+
+
+
+
+
+        this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
+        this.show();
+    }
+    attackTargetPawn(x,y){
+        let tileX = Math.floor(x/this.TILE_WIDTH);
+        let tileY = Math.floor(y/this.TILE_WIDTH);
+        let currentTile = this.grid[tileX][tileY];
+        console.log(currentTile.Occupant);
+        console.log(this.currentPlayer);
+        if(!currentTile.Occupant)
+            return;
+        else if(currentTile == this.selectedTile){
+            this.gameStatus = GameStates.MOVE;
+            this.togglePlayerTurn();
+        }
+        else if(this.highlightedTiles.includes(currentTile) && currentTile.Occupant.Owner != this.currentPlayer){
+            this.unhighlightTiles();
+            
+            this.grid[tileX][tileY].Occupant.HealthPoints -= this.selectedPawn.Damage;
+
+            console.log(this.grid[tileX][tileY].Occupant,this.selectedPawn);
+
+            this.gameStatus = GameStates.HIGHLIGHT_MOVE;
+
+            // Switch Player Turn
+            this.togglePlayerTurn();
+            
+        }
+
+    }
+    togglePlayerTurn(){
+        this.unhighlightTiles();
+        if(this.currentPlayer == Player.ONE)
+            this.currentPlayer = Player.TWO;
+        else
+            this.currentPlayer = Player.ONE;
+    }
+    showPawnAttack(x,y){
+        let tileX = Math.floor(x/this.TILE_WIDTH);
+        let tileY = Math.floor(y/this.TILE_WIDTH);
+        let currentTile = this.grid[tileX][tileY];
+
+        if(currentTile == this.selectedTile){
+            this.gameStatus = GameStates.MOVE;
+            this.togglePlayerTurn();
+        }
+        else if(this.highlightedTiles.includes(currentTile)){
+            this.unhighlightTiles();
+            let attackDir = this.locateDirection(currentTile);
+            let availableAttack = this.selectedPawn.getAvailableAttacks(attackDir);
+        
+            availableAttack = availableAttack.filter( (elem) => {
+                return this.isWithinBoardBoundaries( elem );
+                } );
+    
+            for(let pos of availableAttack){
+                this.highlightedTiles.push(this.grid[pos.x][pos.y]);
+                this.grid[pos.x][pos.y].isHighlight = true;
+            }
+
+            
+            this.gameStatus = GameStates.ATTACK;
+        }
+        
+         // Switch Player Turn
+        // if(this.currentPlayer == Player.ONE)
+        //     this.currentPlayer = Player.TWO;
+        // else
+        //     this.currentPlayer = Player.ONE;
+        
+
+    }
+    locateDirection(tile){
+        if(this.selectedPawn.Position.x-1 == tile.x){
+            return Direction.WEST;
+        }
+        else if(this.selectedPawn.Position.x+1 == tile.x){
+            return Direction.EAST;
+        }
+        else if(this.selectedPawn.Position.y+1 == tile.y){
+            return Direction.SOUTH;
+        }
+        else if(this.selectedPawn.Position.y-1 == tile.y){
+            return Direction.NORTH;
+        }
+        return;
+    }
     showPawnMoves(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
 
-        if(currentTile.Occupant!=null && currentTile.Occupant.Player != this.currentPlayer){
+        if(currentTile.Occupant!=null && currentTile.Occupant.Owner != this.currentPlayer){
             return;
         }
 
         if(this.highlightedTiles.includes(currentTile)){
-            // this.gameStatus = GameStates.ATTACK;
-            this.unhighlightTiles();
-            if(tileX != this.selectedTile.x || tileY != this.selectedTile.y){
-                this.grid[tileX][tileY].Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
-                this.grid[tileX][tileY].Occupant.Position.x = tileX;
-                this.grid[tileX][tileY].Occupant.Position.y = tileY;
-                this.grid[this.selectedTile.x][this.selectedTile.y].Occupant = null;
-            }
-            this.selectedPawn = null;
-            this.selectedTile = null;
-
-            // Switch Player Turn
-            if(this.currentPlayer == Player.ONE)
-                this.currentPlayer = Player.TWO;
-            else
-                this.currentPlayer = Player.ONE;
+            this.movePawn(tileX,tileY);
 
         }
         else if(!currentTile.Occupant){
@@ -213,19 +305,7 @@ export default class Board{
             this.selectedTile = null;
         }
         else if(currentTile.Occupant != this.selectedPawn){
-            this.unhighlightTiles();
-            let availablePos = this.getAvailableMoves(currentTile.Occupant);
-            
-            availablePos = availablePos.filter( (elem) => {
-                return this.isWithinBoardBoundaries( elem );
-              } );
-
-            for(let pos of availablePos){
-                this.highlightedTiles.push(this.grid[pos.x][pos.y]);
-                this.grid[pos.x][pos.y].isHighlight = true;
-            }
-            this.selectedPawn = currentTile.Occupant;
-            this.selectedTile = currentTile;
+            this.highlightNewPawn(tileX,tileY);
         }
         else{
             this.unhighlightTiles();
@@ -246,5 +326,35 @@ export default class Board{
             
         }
     }
+    movePawn(tileX,tileY){
+        this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
+        this.unhighlightTiles();
+        if(tileX != this.selectedTile.x || tileY != this.selectedTile.y){
+            this.grid[tileX][tileY].Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
+            this.grid[tileX][tileY].Occupant.Position.x = tileX;
+            this.grid[tileX][tileY].Occupant.Position.y = tileY;
+            this.grid[this.selectedTile.x][this.selectedTile.y].Occupant = null;
+        }
+        this.selectedPawn = this.grid[tileX][tileY].Occupant;
+        this.selectedTile = this.grid[tileX][tileY];
+        this.showPawnAttackDirection();
+       
+        
+    }
+    highlightNewPawn(tileX,tileY){
+        this.unhighlightTiles();
+        let currentTile = this.grid[tileX][tileY];
+        let availablePos = this.getAvailableMoves(currentTile.Occupant);
+        
+        availablePos = availablePos.filter( (elem) => {
+            return this.isWithinBoardBoundaries( elem );
+            } );
 
+        for(let pos of availablePos){
+            this.highlightedTiles.push(this.grid[pos.x][pos.y]);
+            this.grid[pos.x][pos.y].isHighlight = true;
+        }
+        this.selectedPawn = currentTile.Occupant;
+        this.selectedTile = currentTile;
+    }
 }
