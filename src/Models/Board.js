@@ -206,8 +206,7 @@ export default class Board{
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
-        console.log(currentTile.Occupant);
-        console.log(this.currentPlayer);
+
         if(!currentTile.Occupant)
             return;
         else if(currentTile == this.selectedTile){
@@ -218,16 +217,21 @@ export default class Board{
             this.unhighlightTiles();
             
             this.grid[tileX][tileY].Occupant.HealthPoints -= this.selectedPawn.Damage;
+            
+            if(this.grid[tileX][tileY].Occupant.HealthPoints <= 0){
+                this.grid[tileX][tileY].Occupant = null;
+            }
 
-            console.log(this.grid[tileX][tileY].Occupant,this.selectedPawn);
-
+            
             this.gameStatus = GameStates.HIGHLIGHT_MOVE;
 
             // Switch Player Turn
             this.togglePlayerTurn();
+
+            this.show();
             
         }
-
+        
     }
     togglePlayerTurn(){
         this.unhighlightTiles();

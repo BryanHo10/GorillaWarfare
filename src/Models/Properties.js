@@ -21,3 +21,6 @@ export const Direction = {
     WEST: 3
 
 }
+export const PieceNum = {
+    
+}
