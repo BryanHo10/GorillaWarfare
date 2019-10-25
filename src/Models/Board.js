@@ -6,8 +6,8 @@ import Elephant from "./Characters/Elephant"
 import Chicken from "./Characters/Chicken";
 import Cheetah from "./Characters/Cheetah"
 import Position from "./Position";
-import {Direction,Player,GameStates} from "./Properties";
-import Pawn from "./Characters/Pawn";
+import {Direction,Players,GameStates} from "./Properties";
+import Player from "./Player";
 import * as lib from "../index";
 
 export default class Board{
@@ -28,9 +28,13 @@ export default class Board{
         this.selectedPawn=null;
         this.selectedTile = null;
 
+        // Player Status
+        this.PlayerOne = new Player(Players.ONE);
+        this.PlayerTwo = new Player(Players.TWO);
+        
         // Game States
         this.gameStatus=GameStates.MOVE;
-        this.currentPlayer = Player.ONE;
+        this.currentPlayer = this.PlayerOne;
                                                 
     }
     /**
@@ -151,11 +155,11 @@ export default class Board{
             for(var y=0;y<this.ROW_SIZE;y++){
                 if(y < 2){
                     occupant = this.generateRandomPawn(x,y);
-                    occupant.Owner = Player.ONE;
+                    occupant.Owner = Players.ONE;
                 }
                 else if(y >this.ROW_SIZE-3 || y < 2){
                     occupant = this.generateRandomPawn(x,y);
-                    occupant.Owner = Player.TWO;
+                    occupant.Owner = Players.TWO;
                 }
                 else
                     occupant = null;
@@ -206,35 +210,47 @@ export default class Board{
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
-        console.log(currentTile.Occupant);
-        console.log(this.currentPlayer);
+
         if(!currentTile.Occupant)
             return;
         else if(currentTile == this.selectedTile){
             this.gameStatus = GameStates.MOVE;
             this.togglePlayerTurn();
         }
-        else if(this.highlightedTiles.includes(currentTile) && currentTile.Occupant.Owner != this.currentPlayer){
+        else if(this.highlightedTiles.includes(currentTile) && currentTile.Occupant.Owner != this.currentPlayer.Label){
             this.unhighlightTiles();
             
             this.grid[tileX][tileY].Occupant.HealthPoints -= this.selectedPawn.Damage;
 
-            console.log(this.grid[tileX][tileY].Occupant,this.selectedPawn);
+            if(this.grid[tileX][tileY].Occupant.HealthPoints <= 0){
+                if(this.currentPlayer.Label == Players.ONE){
+                    this.PlayerTwo.PawnCount--;
+                }
+                else{
+                    this.PlayerOne.PawnCount--;
+                }
+                this.grid[tileX][tileY].Occupant = null;
 
+            }
+
+            
             this.gameStatus = GameStates.HIGHLIGHT_MOVE;
 
             // Switch Player Turn
             this.togglePlayerTurn();
+
+            this.show();
             
         }
-
+        
     }
     togglePlayerTurn(){
+        console.log(this.PlayerTwo,this.PlayerOne,this.currentPlayer);
         this.unhighlightTiles();
-        if(this.currentPlayer == Player.ONE)
-            this.currentPlayer = Player.TWO;
+        if(this.currentPlayer.Label == Players.ONE)
+            this.currentPlayer = this.PlayerTwo;
         else
-            this.currentPlayer = Player.ONE;
+            this.currentPlayer = this.PlayerOne;
     }
     showPawnAttack(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
@@ -291,7 +307,7 @@ export default class Board{
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let currentTile = this.grid[tileX][tileY];
 
-        if(currentTile.Occupant!=null && currentTile.Occupant.Owner != this.currentPlayer){
+        if(currentTile.Occupant!=null && currentTile.Occupant.Owner != this.currentPlayer.Label){
             return;
         }
 

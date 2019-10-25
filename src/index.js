@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Board from "./Models/Board.js"
 import * as p5 from "p5";
-import {Terrains,Player,GameStates} from "./Models/Properties";
+import {Terrains,Players,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
 
 const TileLength = 12;
