@@ -224,13 +224,13 @@ export default class Board{
                 for(let tile of this.highlightedTiles){
                     if(tile.Occupant && tile.Occupant.Owner != this.currentPlayer.Label){
                         this.grid[tile.x][tile.y].Occupant.HealthPoints -= this.selectedPawn.Damage;
-                        this.checkPawnDeath(tile.x,tile.y);
+                        this.checkPawnDeath(tile.x,tile.y,tile.Occupant.constructor.name);
                     }
                 }
             }
             else{
                 this.grid[tileX][tileY].Occupant.HealthPoints -= this.selectedPawn.Damage;
-                this.checkPawnDeath(tileX,tileY);
+                this.checkPawnDeath(tileX,tileY,currentTile.Occupant.constructor.name);
             }
             this.unhighlightTiles();
             
@@ -248,13 +248,15 @@ export default class Board{
         }
         
     }
-    checkPawnDeath(tileX,tileY){
+    checkPawnDeath(tileX,tileY,pawnName){
         if(this.grid[tileX][tileY].Occupant.HealthPoints <= 0){
             if(this.currentPlayer.Label == Players.ONE){
                 this.PlayerTwo.PawnCount--;
+                this.PlayerTwo.PawnStatus[pawnName]--;
             }
             else{
                 this.PlayerOne.PawnCount--;
+                this.PlayerOne.PawnStatus[pawnName]--;
             }
             this.grid[tileX][tileY].Occupant = null;
 
