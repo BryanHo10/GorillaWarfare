@@ -218,20 +218,24 @@ export default class Board{
             this.togglePlayerTurn();
         }
         else if(this.highlightedTiles.includes(currentTile) && currentTile.Occupant.Owner != this.currentPlayer.Label){
+            
+            if(this.selectedPawn instanceof Elephant){
+
+                for(let tile of this.highlightedTiles){
+                    if(tile.Occupant && tile.Occupant.Owner != this.currentPlayer.Label){
+                        this.grid[tile.x][tile.y].Occupant.HealthPoints -= this.selectedPawn.Damage;
+                        this.checkPawnDeath(tile.x,tile.y);
+                    }
+                }
+            }
+            else{
+                this.grid[tileX][tileY].Occupant.HealthPoints -= this.selectedPawn.Damage;
+                this.checkPawnDeath(tileX,tileY);
+            }
             this.unhighlightTiles();
             
-            this.grid[tileX][tileY].Occupant.HealthPoints -= this.selectedPawn.Damage;
 
-            if(this.grid[tileX][tileY].Occupant.HealthPoints <= 0){
-                if(this.currentPlayer.Label == Players.ONE){
-                    this.PlayerTwo.PawnCount--;
-                }
-                else{
-                    this.PlayerOne.PawnCount--;
-                }
-                this.grid[tileX][tileY].Occupant = null;
-
-            }
+            
 
             
             this.gameStatus = GameStates.HIGHLIGHT_MOVE;
@@ -243,6 +247,18 @@ export default class Board{
             
         }
         
+    }
+    checkPawnDeath(tileX,tileY){
+        if(this.grid[tileX][tileY].Occupant.HealthPoints <= 0){
+            if(this.currentPlayer.Label == Players.ONE){
+                this.PlayerTwo.PawnCount--;
+            }
+            else{
+                this.PlayerOne.PawnCount--;
+            }
+            this.grid[tileX][tileY].Occupant = null;
+
+        }
     }
     togglePlayerTurn(){
         console.log(this.PlayerTwo,this.PlayerOne,this.currentPlayer);
