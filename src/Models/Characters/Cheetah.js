@@ -35,6 +35,6 @@ export default class Cheetah extends Pawn{
         this.show();
     }
     show(){
-       lib.P5.image(this.sprite, this.Position.x, this.Position.y);
+       lib.P5.fill(this.currentColor);
     }
 }
