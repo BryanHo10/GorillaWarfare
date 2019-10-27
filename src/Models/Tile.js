@@ -23,6 +23,7 @@ export default class Tile{
         if(this.Occupant){
             this.Occupant.show();
             lib.P5.stroke(255);
+            
         }
         
         else{
@@ -47,6 +48,10 @@ export default class Tile{
             lib.P5.stroke(0);
         }
         lib.P5.rect(this.x*this.w,this.y*this.w,this.w,this.w);
+        if(this.Occupant){
+            lib.P5.image(this.Occupant.sprite,this.x*this.w,this.y*this.w,this.w,this.w);
+        }
+        
         
     }
     
