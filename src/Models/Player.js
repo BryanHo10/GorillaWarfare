@@ -19,4 +19,10 @@ export default class Player{
         target.Owner = this.Label;
         this.ActivePawns.push(target);
     }
+    movePawn(){
+
+    }
+    attackPawn(){
+        
+    }
 }
