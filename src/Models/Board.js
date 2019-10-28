@@ -149,24 +149,27 @@ export default class Board{
      * Creates a Grid of [ROW_SIZE] by [COL_SIZE] Tiles
      */
     createNewGrid(){
-        let occupant;
         for(var x=0;x<this.COL_SIZE;x++){
             let row = [];
             for(var y=0;y<this.ROW_SIZE;y++){
                 if(y < 2){
-                    occupant = this.generateRandomPawn(x,y);
-                    occupant.Owner = Players.ONE;
+                    this.PlayerOne.AddPawn(this.generateRandomPawn(x,y));
                 }
                 else if(y >this.ROW_SIZE-3 || y < 2){
-                    occupant = this.generateRandomPawn(x,y);
-                    occupant.Owner = Players.TWO;
+                    this.PlayerTwo.AddPawn(this.generateRandomPawn(x,y));
                 }
-                else
-                    occupant = null;
-
-                row[y]=new Tile(x,y,this.TILE_WIDTH,occupant);
+                else{
+                    row[y]=new Tile(x,y,this.TILE_WIDTH,null);
+                }
+                row[y]=new Tile(x,y,this.TILE_WIDTH,null);
             }
             this.grid.push(row);
+        }
+        for(let elem of this.PlayerOne.ActivePawns){
+            this.grid[elem.Position.x][elem.Position.y].Occupant = elem;
+        }
+        for(let elem of this.PlayerTwo.ActivePawns){
+            this.grid[elem.Position.x][elem.Position.y].Occupant = elem;
         }
         
     }
@@ -198,11 +201,6 @@ export default class Board{
             this.highlightedTiles.push(this.grid[pos.x][pos.y]);
             this.grid[pos.x][pos.y].isHighlight = true;
         }
-
-
-
-
-
         this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
         this.show();
     }
@@ -233,10 +231,6 @@ export default class Board{
                 this.checkPawnDeath(tileX,tileY,currentTile.Occupant.constructor.name);
             }
             this.unhighlightTiles();
-            
-
-            
-
             
             this.gameStatus = GameStates.HIGHLIGHT_MOVE;
 
@@ -330,7 +324,7 @@ export default class Board{
         }
 
         if(this.highlightedTiles.includes(currentTile)){
-            this.movePawn(tileX,tileY);
+            this.movePawn(currentTile);
 
         }
         else if(!currentTile.Occupant){
@@ -339,7 +333,7 @@ export default class Board{
             this.selectedTile = null;
         }
         else if(currentTile.Occupant != this.selectedPawn){
-            this.highlightNewPawn(tileX,tileY);
+            this.highlightNewPawn(currentTile);
         }
         else{
             this.unhighlightTiles();
@@ -360,24 +354,23 @@ export default class Board{
             
         }
     }
-    movePawn(tileX,tileY){
+    movePawn(currentTile){
         this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
         this.unhighlightTiles();
-        if(tileX != this.selectedTile.x || tileY != this.selectedTile.y){
-            this.grid[tileX][tileY].Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
-            this.grid[tileX][tileY].Occupant.Position.x = tileX;
-            this.grid[tileX][tileY].Occupant.Position.y = tileY;
+        if(currentTile.x != this.selectedTile.x || currentTile.y != this.selectedTile.y){
+            currentTile.Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
+            currentTile.Occupant.Position.x = currentTile.x;
+            currentTile.Occupant.Position.y = currentTile.y;
             this.grid[this.selectedTile.x][this.selectedTile.y].Occupant = null;
         }
-        this.selectedPawn = this.grid[tileX][tileY].Occupant;
-        this.selectedTile = this.grid[tileX][tileY];
+        this.selectedPawn = currentTile.Occupant;
+        this.selectedTile = currentTile;
         this.showPawnAttackDirection();
        
         
     }
-    highlightNewPawn(tileX,tileY){
+    highlightNewPawn(currentTile){
         this.unhighlightTiles();
-        let currentTile = this.grid[tileX][tileY];
         let availablePos = this.getAvailableMoves(currentTile.Occupant);
         
         availablePos = availablePos.filter( (elem) => {
