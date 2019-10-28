@@ -2,7 +2,7 @@
 export default class Player{
     constructor(label){
         this.Label = label;
-        this.PawnLayout = {
+        this.PawnStatus = {
             "Chicken":9,
             "Monkey":2,
             "Cheetah":2,
