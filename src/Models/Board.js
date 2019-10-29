@@ -87,6 +87,10 @@ export default class Board{
         return adjacentTiles;
         
     }
+    /**
+     * Checks if a Piece is able to move to the current Position
+     * @param {Position} currentPos 
+     */
     isValidPosition(currentPos){
         if(this.isWithinBoardBoundaries(currentPos)){
             if(this.grid[currentPos.x][currentPos.y].Occupant != null){
@@ -116,7 +120,10 @@ export default class Board{
         }
         return true;
     }
-
+    /**
+     * Checks if the Position is within Board boundaries
+     * @param {Position} position 
+     */
     isWithinBoardBoundaries(position){
 
         if(position.x < 0 || position.x >= this.ROW_SIZE)
@@ -126,6 +133,11 @@ export default class Board{
         return true;
 
     }
+    /**
+     * Generates a Random Pawn
+     * @param {number} x 
+     * @param {number} y 
+     */
     generateRandomPawn(x,y){
         let randNum = Math.floor(Math.random() * Math.floor(6));
         switch(randNum){
@@ -204,6 +216,11 @@ export default class Board{
         this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
         this.show();
     }
+    /**
+     * Handles mouse click on Game Status : ATTACK
+     * @param {number} x 
+     * @param {number} y 
+     */
     attackTargetPawn(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
@@ -242,6 +259,12 @@ export default class Board{
         }
         
     }
+    /**
+     * Removes Pawn if Health Points are depleted, updating Player's Pawn Status
+     * @param {number} tileX 
+     * @param {number} tileY 
+     * @param {string} pawnName 
+     */
     checkPawnDeath(tileX,tileY,pawnName){
         if(this.grid[tileX][tileY].Occupant.HealthPoints <= 0){
             if(this.currentPlayer.Label == Players.ONE){
@@ -256,14 +279,21 @@ export default class Board{
 
         }
     }
+    /**
+     * Switches Player
+     */
     togglePlayerTurn(){
-        console.log(this.PlayerTwo,this.PlayerOne,this.currentPlayer);
         this.unhighlightTiles();
         if(this.currentPlayer.Label == Players.ONE)
             this.currentPlayer = this.PlayerTwo;
         else
             this.currentPlayer = this.PlayerOne;
     }
+    /**
+     * Handles mouse clicks during Game State : HIGHLIGH_ATTACK
+     * @param {number} x 
+     * @param {number} y 
+     */
     showPawnAttack(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
@@ -291,14 +321,12 @@ export default class Board{
             this.gameStatus = GameStates.ATTACK;
         }
         
-         // Switch Player Turn
-        // if(this.currentPlayer == Player.ONE)
-        //     this.currentPlayer = Player.TWO;
-        // else
-        //     this.currentPlayer = Player.ONE;
-        
 
     }
+    /**
+     * Identify Tile location with respect to selected Tile
+     * @param {Tile} tile 
+     */
     locateDirection(tile){
         if(this.selectedPawn.Position.x-1 == tile.x){
             return Direction.WEST;
@@ -314,6 +342,11 @@ export default class Board{
         }
         return;
     }
+    /**
+     * Handles mouse clicks during Game State : MOVE
+     * @param {number} x 
+     * @param {number} y 
+     */
     showPawnMoves(x,y){
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
@@ -345,6 +378,9 @@ export default class Board{
         
         this.show();
     }
+    /**
+     * Clears Highlight on Tiles
+     */
     unhighlightTiles(){
         
         for(let i=this.highlightedTiles.length-1;i>=0;i--){
@@ -354,6 +390,10 @@ export default class Board{
             
         }
     }
+    /**
+     * Move previously selected Pawn to selected Tile
+     * @param {Tile} currentTile 
+     */
     movePawn(currentTile){
         this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
         this.unhighlightTiles();
@@ -369,6 +409,10 @@ export default class Board{
        
         
     }
+    /**
+     * Shows Available Movements for selected Occupant of the Tile
+     * @param {Tile} currentTile 
+     */
     highlightNewPawn(currentTile){
         this.unhighlightTiles();
         let availablePos = this.getAvailableMoves(currentTile.Occupant);
