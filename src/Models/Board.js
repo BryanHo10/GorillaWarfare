@@ -155,7 +155,71 @@ export default class Board{
                 return new Cheetah(x,y);
         }
         return null;
+    }
 
+    generateBasicPieces(x,y,player_){
+        for(; x < this.COL_SIZE - 2; x++){
+            this.grid[x][y].Occupant = new Chicken(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+        }
+    }
+
+    generateSpecialPieces(x,y,player_){
+        console.log(x)
+        if(y == 0){
+            this.grid[x][y].Occupant = new Cheetah(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            console.log(this.grid[x][y].Occupant)
+            x++;
+            console.log(y)
+            this.grid[x][y].Occupant = new Monkey(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++;
+            this.grid[x][y].Occupant = new Elephant(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++;
+            this.grid[x][y].Occupant = new Lion(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++;
+            this.grid[x][y].Occupant = new Gorilla(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++;
+            this.grid[x][y].Occupant = new Elephant(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++;
+            this.grid[x][y].Occupant = new Monkey(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++;
+            this.grid[x][y].Occupant = new Cheetah(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x++; 
+        }
+        else if(y == this.ROW_SIZE - 1){
+            this.grid[x][y].Occupant = new Cheetah(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Monkey(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Elephant(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Lion(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Gorilla(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Elephant(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Monkey(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+            this.grid[x][y].Occupant = new Cheetah(x,y);
+            this.grid[x][y].Occupant.Owner = player_;
+            x--; 
+        }
     }
     /**
      * Creates a Grid of [ROW_SIZE] by [COL_SIZE] Tiles
@@ -167,13 +231,12 @@ export default class Board{
                 if(y < 2){
                     this.PlayerOne.AddPawn(this.generateRandomPawn(x,y));
                 }
-                else if(y >this.ROW_SIZE-3 || y < 2){
+                else if(y >this.ROW_SIZE-3){
                     this.PlayerTwo.AddPawn(this.generateRandomPawn(x,y));
                 }
                 else{
                     row[y]=new Tile(x,y,this.TILE_WIDTH,null);
                 }
-                row[y]=new Tile(x,y,this.TILE_WIDTH,null);
             }
             this.grid.push(row);
         }
@@ -183,8 +246,22 @@ export default class Board{
         for(let elem of this.PlayerTwo.ActivePawns){
             this.grid[elem.Position.x][elem.Position.y].Occupant = elem;
         }
+        // generate pieces for top player
+        y = 0;
+        x = 2;
+        this.generateSpecialPieces(x,y,Players.ONE);
+        y = 1;
+        this.generateBasicPieces(x,y,Players.ONE);
         
+        // generate pieces for bottom player
+        y = this.ROW_SIZE - 2;
+        this.generateBasicPieces(x,y,Players.TWO);
+        y = this.ROW_SIZE - 1;
+        x = this.COL_SIZE - 3;
+        this.generateSpecialPieces(x,y,Players.TWO); 
     }
+
+
     show(){
         for(var y=0;y<this.COL_SIZE;y++){
             for(var x=0;x<this.ROW_SIZE;x++){
