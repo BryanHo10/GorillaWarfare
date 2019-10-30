@@ -1,3 +1,4 @@
+import Pawn from "./Characters/Pawn"
 
 export default class Player{
     constructor(label){
@@ -7,10 +8,15 @@ export default class Player{
             "Monkey":2,
             "Cheetah":2,
             "Gorilla":1,
-            "Lion":2,
+            "Lion":1,
             "Elephant":2
         };
         this.PawnCount = 18;
+        this.ActivePawns=[];
     } 
-
+    
+    AddPawn(target){
+        target.Owner = this.Label;
+        this.ActivePawns.push(target);
+    }
 }
