@@ -39,8 +39,14 @@ export default class KongAI extends Player{
     }
 
     // Maximizing Function
-    calculateDmgDealtHeuristic(){
-
+    calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+        for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
+            let total = 0;
+                total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
+        }
+        if(activeAI)
+            return total * this.heuristicWeights["PawnHurt"];
+        return total * this.heuristicWeights["DmgDealt"];
     }
     calculateDmgKingHeuristic(){
         
