@@ -46,13 +46,9 @@ export default class KongAI extends Player{
         
     }
     calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
-        let opponent = this.boardStatus.PlayerTwo;
-        if(activeAI){
-            opponent = this.boardStatus.PlayerOne;
-        }
 
         let score = 0;
-        Object.keys(opponent.PawnStatus).map((pawnName)=>{
+        Object.keys(currPlayerStatus.PawnStatus).map((pawnName)=>{
             if(pawnName != "Lion"){
                 if(prevPlayerStatus[pawnName] > currPlayerStatus[pawnName]){
                     score++;
@@ -65,11 +61,6 @@ export default class KongAI extends Player{
 
     }
     calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
-        let opponent = this.boardStatus.PlayerTwo;
-        if(activeAI){
-            opponent = this.boardStatus.PlayerOne;
-        }
-
         let score = 0;
 
         if(prevPlayerStatus["Lion"] > currPlayerStatus["Lion"]){
