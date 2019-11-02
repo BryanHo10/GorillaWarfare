@@ -40,16 +40,27 @@ export default class KongAI extends Player{
 
     // Maximizing Function
     calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+        let total = 0;
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
-            let total = 0;
-                total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
+            
+            total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
         }
         if(activeAI)
-            return total * this.heuristicWeights["PawnHurt"];
-        return total * this.heuristicWeights["DmgDealt"];
+            return total * this.heuristicWeights["DmgDealt"];
+        return total * this.heuristicWeights["PawnHurt"];
     }
-    calculateDmgKingHeuristic(){
-        
+    calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+        let total = 0;
+        for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
+            if(prevPlayerStatus.activePawn[i].pawnName == "Lion"){
+                total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
+                break;
+            }
+
+        }
+        if(activeAI)
+            return total * this.heuristicWeights["DmgKing"];
+        return total * this.heuristicWeights["KingHurt"];
     }
     calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
 
