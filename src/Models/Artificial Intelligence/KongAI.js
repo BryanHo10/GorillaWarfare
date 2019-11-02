@@ -51,17 +51,17 @@ export default class KongAI extends Player{
             opponent = this.boardStatus.PlayerOne;
         }
 
-        
         let score = 0;
-        let pawnCount = Object.keys(opponent.PawnStatus).length;
         Object.keys(opponent.PawnStatus).map((pawnName)=>{
             if(pawnName != "Gorilla"){
-                if(prevPlayerStatus[pawnName] > currPlayerStatus[pawnCount]){
+                if(prevPlayerStatus[pawnName] > currPlayerStatus[pawnName]){
                     score++;
                 }
             }
         });
-        return score * this.heuristicWeights["PawnKill"];
+        if(activeAI)
+            return score * this.heuristicWeights["PawnKill"];
+        return score * this.heuristicWeights["PawnLost"];
 
     }
     calculateKingKillHeuristic(){
@@ -70,13 +70,13 @@ export default class KongAI extends Player{
 
     // Minimizing Function
     calculatePawnLostHeuristic(){
-
+        
     }
     calculatePawnHurtHeuristic(){
         
     }
     calculateKingLostHeuristic(){
-
+        
     }
     calculateKingHurtHeuristic(){
         
