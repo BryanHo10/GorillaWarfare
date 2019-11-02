@@ -199,15 +199,7 @@ export default class Board{
         for(var x=0;x<this.COL_SIZE;x++){
             let row = [];
             for(var y=0;y<this.ROW_SIZE;y++){
-                if(y < 2){
-                    this.PlayerOne.AddPawn(this.generateRandomPawn(x,y));
-                }
-                else if(y >this.ROW_SIZE-3){
-                    this.PlayerTwo.AddPawn(this.generateRandomPawn(x,y));
-                }
-                else{
-                    row[y]=new Tile(x,y,this.TILE_WIDTH,null);
-                }
+                row[y]=new Tile(x,y,this.TILE_WIDTH,null);
             }
             this.grid.push(row);
         }
