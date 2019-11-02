@@ -1,4 +1,5 @@
 import Player from "../Player"
+import clonedeep from "lodash"
 
 export default class KongAI extends Player{
     constructor(label){
@@ -11,15 +12,14 @@ export default class KongAI extends Player{
             "KingKill":1,
             // Minimize
             "PawnLost":-1,
+            "PawnHurt":-1,
             "KingHurt":-1,
             "KingLost":-1
         }
 
     } 
-    performAction(grid){
+    performAction(board){
         
-
-
     }
     /**
      * Returns a heuristic value based on the weights multiplied by delta(P)
@@ -28,11 +28,37 @@ export default class KongAI extends Player{
      * @param {*} currStatus 
      */
     measureWeights(prevStatus,currStatus){
+        
+    }
+
+    // Maximizing Function
+    calculateDmgDealtHeuristic(){
 
     }
-    calculateDmgDealtHeuristic(){
-        for(let i=0;i<)
+    calculateDmgKingHeuristic(){
+        
     }
+    calculatePawnKillHeuristic(){
+        
+    }
+    calculateKingKillHeuristic(){
+        
+    }
+
+    // Minimizing Function
+    calculatePawnLostHeuristic(){
+
+    }
+    calculatePawnHurtHeuristic(){
+        
+    }
+    calculateKingLostHeuristic(){
+
+    }
+    calculateKingHurtHeuristic(){
+        
+    }
+
     movePawn(targetPosition){
 
     }
