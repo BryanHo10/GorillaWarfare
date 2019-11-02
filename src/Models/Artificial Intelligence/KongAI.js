@@ -2,7 +2,7 @@ import Player from "../Player"
 import clonedeep from "lodash"
 
 export default class KongAI extends Player{
-    constructor(label){
+    constructor(label,gameBoard){
         super(label);
         this.heuristicWeights={
             // Maximize
@@ -16,8 +16,13 @@ export default class KongAI extends Player{
             "KingHurt":-1,
             "KingLost":-1
         }
+        this.boardStatus = gameBoard;
 
     } 
+    updateBoard(gameBoard){
+        this.boardStatus = gameBoard;
+    }
+    
     performAction(board){
         
     }
@@ -27,7 +32,7 @@ export default class KongAI extends Player{
      * @param {*} prevStatus 
      * @param {*} currStatus 
      */
-    measureWeights(prevStatus,currStatus){
+    measureWeights(prevBoard,currBoard){
         
     }
 

@@ -9,9 +9,10 @@ import Position from "./Position";
 import {Direction,Players,GameStates} from "./Properties";
 import Player from "./Player";
 import * as lib from "../index";
+import KongAI from "./Artificial Intelligence/KongAI.js";
 
 export default class Board{
-    constructor(boardWidth,boardHeight,rowCount){
+    constructor(boardWidth,boardHeight,rowCount,playAI){
         this.grid=[];
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
@@ -30,7 +31,13 @@ export default class Board{
 
         // Player Status
         this.PlayerOne = new Player(Players.ONE);
-        this.PlayerTwo = new Player(Players.TWO);
+        if(playAI){
+            this.PlayerTwo = new KongAI(Players.TWO,this);
+        }
+        else {
+            this.PlayerTwo = new Player(Players.TWO);
+        }
+        
         
         // Game States
         this.gameStatus=GameStates.MOVE;
