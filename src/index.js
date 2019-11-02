@@ -3,6 +3,7 @@ import Board from "./Models/Board.js"
 import * as p5 from "p5";
 import {Terrains,Players,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
+import KongAI from './Models/Artificial Intelligence/KongAI.js';
 
 const TileLength = 12;
 
@@ -13,7 +14,7 @@ let s = (sk) => {
     sk.setup = () =>{
         sk.createCanvas(700,700);
         sk.background(0);
-        game = new Board(700,700,TileLength);  
+        game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
         game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
         game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
