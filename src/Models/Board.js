@@ -145,21 +145,19 @@ export default class Board{
         return null;
     }
 
-    generateBasicPieces(x,y,player_){
-        for(; x < this.COL_SIZE - 2; x++){
+    generateBasicPieces(y,player_){
+        for(var x = 2; x < this.COL_SIZE - 2; x++){
             this.grid[x][y].Occupant = new Chicken(x,y);
             this.grid[x][y].Occupant.Owner = player_;
         }
     }
 
-    generateSpecialPieces(x,y,player_){
-        console.log(x)
-        if(y == 0){
+    generateSpecialPieces(y,player_){
+            let x = 2;
+            
             this.grid[x][y].Occupant = new Cheetah(x,y);
             this.grid[x][y].Occupant.Owner = player_;
-            console.log(this.grid[x][y].Occupant)
             x++;
-            console.log(y)
             this.grid[x][y].Occupant = new Monkey(x,y);
             this.grid[x][y].Occupant.Owner = player_;
             x++;
@@ -181,61 +179,36 @@ export default class Board{
             this.grid[x][y].Occupant = new Cheetah(x,y);
             this.grid[x][y].Occupant.Owner = player_;
             x++; 
-        }
-        else if(y == this.ROW_SIZE - 1){
-            this.grid[x][y].Occupant = new Cheetah(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Monkey(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Elephant(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Lion(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Gorilla(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Elephant(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Monkey(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-            this.grid[x][y].Occupant = new Cheetah(x,y);
-            this.grid[x][y].Occupant.Owner = player_;
-            x--; 
-        }
     }
     /**
      * Creates a Grid of [ROW_SIZE] by [COL_SIZE] Tiles
      */
     createNewGrid(){
         // initialize all tiles to null
-        for(var x=0;x<this.COL_SIZE;x++){
+        for(var x = 0; x < this.COL_SIZE; x++){
             let row = [];
-            for(var y=0;y<this.ROW_SIZE;y++){
+            for(var y = 0; y < this.ROW_SIZE; y++){
                 row[y]=new Tile(x,y,this.TILE_WIDTH,null);
             }
             this.grid.push(row);
         }
-        // generate pieces for top player
-        y = 0;
-        x = 2;
-        this.generateSpecialPieces(x,y,Players.ONE);
-        y = 1;
-        this.generateBasicPieces(x,y,Players.ONE);
         
-        // generate pieces for bottom player
-        y = this.ROW_SIZE - 2;
-        this.generateBasicPieces(x,y,Players.TWO);
-        y = this.ROW_SIZE - 1;
-        x = this.COL_SIZE - 3;
-        this.generateSpecialPieces(x,y,Players.TWO); 
-    }
+        for(y = 0 ; y<this.ROW_SIZE ; y++){
 
+            if(y == 0){
+                this.generateSpecialPieces(y,Players.ONE);
+            }
+            else if(y == 1) {
+                this.generateBasicPieces(y,Players.ONE);
+            }
+            else if(y == this.ROW_SIZE - 2) {
+                this.generateBasicPieces(y,Players.TWO);
+            }
+            else if(y == this.ROW_SIZE - 1){
+                this.generateSpecialPieces(y,Players.TWO);
+            }
+        }
+    }
 
     show(){
         for(var y=0;y<this.COL_SIZE;y++){
@@ -458,4 +431,6 @@ export default class Board{
         this.selectedPawn = currentTile.Occupant;
         this.selectedTile = currentTile;
     }
+
+
 }

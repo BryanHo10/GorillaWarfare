@@ -8,7 +8,8 @@ const TileLength = 12;
 
 export {TileLength};
 let s = (sk) => {  
-    let game;  
+    let game; 
+    //let endTurnButton;
     sk.setup = () =>{
         sk.createCanvas(700,700);
         sk.background(0);
@@ -17,12 +18,19 @@ let s = (sk) => {
         game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
         game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
         game.tryPlaceTerrainTiles(new Position(0,4),1,4,Terrains.TREE);
-        game.tryPlaceTerrainTiles(new Position(11,4),1,4,Terrains.TREE)
-        
+        game.tryPlaceTerrainTiles(new Position(11,4),1,4,Terrains.TREE);
+        // endTurnButton = createButton('End Turn');
+        // endTurnButton.position(800, 600);
+        // endTurnButton.mousePressed(endTurn);
+    }
+
+    sk.endTurn = () =>{
+        game.togglePlayerTurn();
     }
 
     sk.draw = () =>{
         game.show();
+        //endTurnButton.show();
     }
     
     sk.mouseClicked = () =>{
