@@ -4,7 +4,7 @@ export default class Player{
     constructor(label){
         this.Label = label;
         this.PawnStatus = {
-            "Chicken":9,
+            "Chicken":8,
             "Monkey":2,
             "Cheetah":2,
             "Gorilla":1,
@@ -18,5 +18,11 @@ export default class Player{
     AddPawn(target){
         target.Owner = this.Label;
         this.ActivePawns.push(target);
+    }
+    movePawn(){
+
+    }
+    attackPawn(){
+        
     }
 }
