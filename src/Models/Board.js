@@ -19,6 +19,7 @@ export default class Board{
         this.ROW_SIZE = rowCount;
         this.COL_SIZE = rowCount;
         this.TILE_WIDTH = boardWidth/this.ROW_SIZE;
+        this.playAI = playAI;
 
         // Terrain Placements
         this.LakePositions = null;
@@ -140,29 +141,7 @@ export default class Board{
         return true;
 
     }
-    /**
-     * Generates a Random Pawn
-     * @param {number} x 
-     * @param {number} y 
-     */
-    generateRandomPawn(x,y){
-        let randNum = Math.floor(Math.random() * Math.floor(6));
-        switch(randNum){
-            case 0:
-                return new Monkey(x,y);
-            case 1:
-                return new Chicken(x,y);
-            case 2:
-                return new Lion(x,y);
-            case 3:
-                return new Gorilla(x,y);
-            case 4:
-                return new Elephant(x,y);
-            case 5:
-                return new Cheetah(x,y);
-        }
-        return null;
-    }
+
 
     generateBasicPieces(y,player_){
         for(var x = 2; x < this.COL_SIZE - 2; x++){
@@ -223,7 +202,9 @@ export default class Board{
             this.PlayerTwo.AddPawn(this.grid[x][this.ROW_SIZE-2]);
             this.PlayerTwo.AddPawn(this.grid[x][this.ROW_SIZE-1]);
         }
-        
+        if(this.playAI){
+            this.PlayerTwo.updateBoard(this);
+        }
 
         
     }
@@ -327,7 +308,15 @@ export default class Board{
      */
     togglePlayerTurn(){
         this.unhighlightTiles();
-        if(this.currentPlayer.Label == Players.ONE)
+        if(this.playAI){
+            this.currentPlayer = this.PlayerTwo;
+            this.PlayerTwo.updateBoard(this);
+            console.log(this.playAI,this.PlayerTwo);
+            this.PlayerTwo.updateBoard(this);
+            this.PlayerTwo.performAction();
+            this.currentPlayer = this.PlayerOne;
+        }
+        else if(this.currentPlayer.Label == Players.ONE)
             this.currentPlayer = this.PlayerTwo;
         else
             this.currentPlayer = this.PlayerOne;

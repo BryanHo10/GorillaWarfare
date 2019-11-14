@@ -12,17 +12,39 @@ export default class KongAI extends Player{
             "KingKill":1,
         }
         this.boardStatus = gameBoard;
-
+        console.log("AI Active");
 
 
     } 
     updateBoard(gameBoard){
         this.boardStatus = gameBoard;
+
     }
 
-    performAction(board){
-        
+    performAction(){
+        let depth = 0;
+        // let queue=[];
+        // while(depth < 3){
+        for( let pawn of this.boardStatus.PlayerTwo.ActivePawns){
+            console.log(this.getBoardStatePawnMove(pawn.Occupant,this.boardStatus));
+        }
+        // }
     }
+    getBoardStatePawnMove(pawn,board){
+        let newBoardPieceMoves=[]
+        console.log(board.getAvailableMoves(pawn));
+        for(let pos of board.getAvailableMoves(pawn)){
+            let movePieceBoard = clonedeep(this.boardStatus);
+            console.log(movePieceBoard);
+            movePieceBoard.selectedPawn = pawn;
+            movePieceBoard.selectedTile = movePieceBoard.grid[pawn.Position.x][pawn.Position.y];
+            movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
+            newBoardPieceMoves.push(movePieceBoard);
+
+        }
+        return newBoardPieceMoves;
+    }
+
     /**
      * Returns a heuristic value based on the weights multiplied by delta(P)
      * @function delta(P): The difference between current Player status and previous Player status  
@@ -30,7 +52,12 @@ export default class KongAI extends Player{
      * @param {*} currStatus 
      */
     measureWeights(prevPlayerStatus,currPlayerStatus){
-        
+        return (
+            this.calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus)+
+            this.calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus)+
+            this.calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus)+
+            this.calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus)
+        );
     }
 
     // Maximizing Function
