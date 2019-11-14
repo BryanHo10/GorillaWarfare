@@ -10,11 +10,6 @@ export default class KongAI extends Player{
             "DmgKing":1,
             "PawnKill":1,
             "KingKill":1,
-            // Minimize
-            "PawnLost":-1,
-            "PawnHurt":-1,
-            "KingHurt":-1,
-            "KingLost":-1
         }
         this.boardStatus = gameBoard;
 
@@ -39,17 +34,15 @@ export default class KongAI extends Player{
     }
 
     // Maximizing Function
-    calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus){
         let total = 0;
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
             
             total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
         }
-        if(activeAI)
-            return total * this.heuristicWeights["DmgDealt"];
-        return total * this.heuristicWeights["PawnHurt"];
+        return total * this.heuristicWeights["DmgDealt"];
     }
-    calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus){
         let total = 0;
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
             if(prevPlayerStatus.activePawn[i].pawnName == "Lion"){
@@ -58,11 +51,9 @@ export default class KongAI extends Player{
             }
 
         }
-        if(activeAI)
-            return total * this.heuristicWeights["DmgKing"];
-        return total * this.heuristicWeights["KingHurt"];
+        return total * this.heuristicWeights["DmgKing"];
     }
-    calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus){
 
         let score = 0;
         Object.keys(currPlayerStatus.PawnStatus).map((pawnName)=>{
@@ -72,21 +63,17 @@ export default class KongAI extends Player{
                 }
             }
         });
-        if(activeAI)
-            return score * this.heuristicWeights["PawnKill"];
-        return score * this.heuristicWeights["PawnLost"];
+        return score * this.heuristicWeights["PawnKill"];
 
     }
-    calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus){
         let score = 0;
 
         if(prevPlayerStatus["Lion"] > currPlayerStatus["Lion"]){
             score++;
         }
 
-        if(activeAI)
-            return score * this.heuristicWeights["KingKill"];
-        return score * this.heuristicWeights["KingLost"];
+        return score * this.heuristicWeights["KingKill"];
     }
 
 
