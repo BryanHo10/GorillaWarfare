@@ -197,10 +197,10 @@ export default class Board{
         // generate pieces for top player
 
         for(let x = 2;x<this.COL_SIZE-2;x++){
-            this.PlayerOne.AddPawn(this.grid[x][0]);
-            this.PlayerOne.AddPawn(this.grid[x][1]);
-            this.PlayerTwo.AddPawn(this.grid[x][this.ROW_SIZE-2]);
-            this.PlayerTwo.AddPawn(this.grid[x][this.ROW_SIZE-1]);
+            this.PlayerOne.AddPawn(this.grid[x][0].Occupant);
+            this.PlayerOne.AddPawn(this.grid[x][1].Occupant);
+            this.PlayerTwo.AddPawn(this.grid[x][this.ROW_SIZE-2].Occupant);
+            this.PlayerTwo.AddPawn(this.grid[x][this.ROW_SIZE-1].Occupant);
         }
         if(this.playAI){
             this.PlayerTwo.updateBoard(this);

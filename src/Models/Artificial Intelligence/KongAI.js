@@ -1,5 +1,5 @@
 import Player from "../Player"
-import clonedeep from "lodash"
+import clonedeep from "lodash.clonedeep";
 
 export default class KongAI extends Player{
     constructor(label,gameBoard){
@@ -25,23 +25,26 @@ export default class KongAI extends Player{
         let depth = 0;
         // let queue=[];
         // while(depth < 3){
+        let boardStates=[];
         for( let pawn of this.boardStatus.PlayerTwo.ActivePawns){
-            console.log(this.getBoardStatePawnMove(pawn.Occupant,this.boardStatus));
-        }
+            boardStates = boardStates.concat(this.getBoardStatePawnMove(pawn,this.boardStatus));
+        } 
+        // console.log(boardStates);
         // }
     }
     getBoardStatePawnMove(pawn,board){
         let newBoardPieceMoves=[]
-        console.log(board.getAvailableMoves(pawn));
         for(let pos of board.getAvailableMoves(pawn)){
             let movePieceBoard = clonedeep(this.boardStatus);
-            console.log(movePieceBoard);
-            movePieceBoard.selectedPawn = pawn;
-            movePieceBoard.selectedTile = movePieceBoard.grid[pawn.Position.x][pawn.Position.y];
+            let pawnClone = clonedeep(pawn);
+            movePieceBoard.selectedPawn = pawnClone;
+            movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
             newBoardPieceMoves.push(movePieceBoard);
 
         }
+
+        // console.log(newBoardPieceMoves[0].PlayerTwo.ActivePawns[0].Position,newBoardPieceMoves[1].PlayerTwo.ActivePawns[0].Position);
         return newBoardPieceMoves;
     }
 
@@ -56,7 +59,7 @@ export default class KongAI extends Player{
             this.calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus)+
             this.calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus)+
             this.calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus)+
-            this.calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus)
+            this.calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus)  
         );
     }
 
