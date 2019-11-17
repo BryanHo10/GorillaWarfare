@@ -311,8 +311,6 @@ export default class Board{
         if(this.playAI){
             this.currentPlayer = this.PlayerTwo;
             this.PlayerTwo.updateBoard(this);
-            console.log(this.playAI,this.PlayerTwo);
-            this.PlayerTwo.updateBoard(this);
             this.PlayerTwo.performAction();
             this.currentPlayer = this.PlayerOne;
         }

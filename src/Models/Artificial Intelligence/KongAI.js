@@ -11,6 +11,7 @@ export default class KongAI extends Player{
             "PawnKill":1,
             "KingKill":1,
         }
+        this.lookAheadDepth = 2;
         this.boardStatus = gameBoard;
         console.log("AI Active");
 
@@ -23,25 +24,46 @@ export default class KongAI extends Player{
 
     performAction(){
         let depth = 0;
-        // let queue=[];
-        // while(depth < 3){
+
         let boardStates=[];
+        // First Layer 
         for( let pawn of this.boardStatus.PlayerTwo.ActivePawns){
             boardStates = boardStates.concat(this.getBoardStatePawnMove(pawn,this.boardStatus));
         } 
-        // console.log(boardStates);
-        // }
+
+        let currentQueue = boardStates;
+
+        while(depth+1 < this.lookAheadDepth){
+            let nextQueue = [];
+
+            for(let state of currentQueue){
+                let childrenStates = [];
+                for( let pawn of state["board"].PlayerTwo.ActivePawns){
+                    childrenStates = childrenStates.concat(this.getBoardStatePawnMove(pawn,state["board"]));
+                    console.log("Add Children States");
+                } 
+
+                state["children"] = childrenStates;
+                nextQueue = nextQueue.concat(childrenStates);
+                console.log("Next state!");
+            }
+            currentQueue = nextQueue;
+            depth++;
+        }
+        console.log(boardStates,"finished");
     }
     getBoardStatePawnMove(pawn,board){
         let newBoardPieceMoves=[]
         for(let pos of board.getAvailableMoves(pawn)){
-            let movePieceBoard = clonedeep(this.boardStatus);
+            let stateSpace = {};
+            let movePieceBoard = clonedeep(board);
             let pawnClone = clonedeep(pawn);
             movePieceBoard.selectedPawn = pawnClone;
             movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
-            newBoardPieceMoves.push(movePieceBoard);
+            stateSpace["board"] = movePieceBoard;
 
+            newBoardPieceMoves.push(stateSpace);
         }
 
         // console.log(newBoardPieceMoves[0].PlayerTwo.ActivePawns[0].Position,newBoardPieceMoves[1].PlayerTwo.ActivePawns[0].Position);
