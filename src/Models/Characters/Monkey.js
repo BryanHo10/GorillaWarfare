@@ -16,7 +16,7 @@ export default class Monkey extends Pawn{
             y,
             4,                                  // Health Points
             1,                                  // Damage
-            2,                                  // Step Count
+            1,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.currentColor = [20, 204, 255];

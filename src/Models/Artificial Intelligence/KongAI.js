@@ -40,12 +40,10 @@ export default class KongAI extends Player{
                 let childrenStates = [];
                 for( let pawn of state["board"].PlayerTwo.ActivePawns){
                     childrenStates = childrenStates.concat(this.getBoardStatePawnMove(pawn,state["board"]));
-                    console.log("Add Children States");
                 } 
 
                 state["children"] = childrenStates;
                 nextQueue = nextQueue.concat(childrenStates);
-                console.log("Next state!");
             }
             currentQueue = nextQueue;
             depth++;
