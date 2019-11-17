@@ -59,5 +59,8 @@ export default class Pawn{
         this.Position = targetPos;
     }
 
+    getTargets(opponentPawns){
+
+    }
 
 }

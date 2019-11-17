@@ -15,7 +15,7 @@ export default class Lion extends Pawn{
             y,
             8,                                  // Health Points
             3,                                  // Damage
-            3,                                  // Step Count
+            1,                                  // Step Count
             [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
         );
         this.currentColor = [255, 128, 64];

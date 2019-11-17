@@ -1,5 +1,5 @@
 import Player from "../Player"
-import clonedeep from "lodash"
+import clonedeep from "lodash.clonedeep";
 
 export default class KongAI extends Player{
     constructor(label,gameBoard){
@@ -10,24 +10,64 @@ export default class KongAI extends Player{
             "DmgKing":1,
             "PawnKill":1,
             "KingKill":1,
-            // Minimize
-            "PawnLost":-1,
-            "PawnHurt":-1,
-            "KingHurt":-1,
-            "KingLost":-1
         }
+        this.lookAheadDepth = 2;
         this.boardStatus = gameBoard;
-
+        console.log("AI Active");
 
 
     } 
     updateBoard(gameBoard){
         this.boardStatus = gameBoard;
+
     }
 
-    performAction(board){
-        
+    performAction(){
+        let depth = 0;
+
+        let boardStates=[];
+        // First Layer 
+        for( let pawn of this.boardStatus.PlayerTwo.ActivePawns){
+            boardStates = boardStates.concat(this.getBoardStatePawnMove(pawn,this.boardStatus));
+        } 
+
+        let currentQueue = boardStates;
+
+        while(depth+1 < this.lookAheadDepth){
+            let nextQueue = [];
+
+            for(let state of currentQueue){
+                let childrenStates = [];
+                for( let pawn of state["board"].PlayerTwo.ActivePawns){
+                    childrenStates = childrenStates.concat(this.getBoardStatePawnMove(pawn,state["board"]));
+                } 
+
+                state["children"] = childrenStates;
+                nextQueue = nextQueue.concat(childrenStates);
+            }
+            currentQueue = nextQueue;
+            depth++;
+        }
+        console.log(boardStates,"finished");
     }
+    getBoardStatePawnMove(pawn,board){
+        let newBoardPieceMoves=[]
+        for(let pos of board.getAvailableMoves(pawn)){
+            let stateSpace = {};
+            let movePieceBoard = clonedeep(board);
+            let pawnClone = clonedeep(pawn);
+            movePieceBoard.selectedPawn = pawnClone;
+            movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
+            movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
+            stateSpace["board"] = movePieceBoard;
+
+            newBoardPieceMoves.push(stateSpace);
+        }
+
+        // console.log(newBoardPieceMoves[0].PlayerTwo.ActivePawns[0].Position,newBoardPieceMoves[1].PlayerTwo.ActivePawns[0].Position);
+        return newBoardPieceMoves;
+    }
+
     /**
      * Returns a heuristic value based on the weights multiplied by delta(P)
      * @function delta(P): The difference between current Player status and previous Player status  
@@ -35,21 +75,24 @@ export default class KongAI extends Player{
      * @param {*} currStatus 
      */
     measureWeights(prevPlayerStatus,currPlayerStatus){
-        
+        return (
+            this.calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus)+
+            this.calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus)+
+            this.calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus)+
+            this.calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus)  
+        );
     }
 
     // Maximizing Function
-    calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculateDmgDealtHeuristic(prevPlayerStatus,currPlayerStatus){
         let total = 0;
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
             
             total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
         }
-        if(activeAI)
-            return total * this.heuristicWeights["DmgDealt"];
-        return total * this.heuristicWeights["PawnHurt"];
+        return total * this.heuristicWeights["DmgDealt"];
     }
-    calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus){
         let total = 0;
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
             if(prevPlayerStatus.activePawn[i].pawnName == "Lion"){
@@ -58,11 +101,9 @@ export default class KongAI extends Player{
             }
 
         }
-        if(activeAI)
-            return total * this.heuristicWeights["DmgKing"];
-        return total * this.heuristicWeights["KingHurt"];
+        return total * this.heuristicWeights["DmgKing"];
     }
-    calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculatePawnKillHeuristic(prevPlayerStatus,currPlayerStatus){
 
         let score = 0;
         Object.keys(currPlayerStatus.PawnStatus).map((pawnName)=>{
@@ -72,21 +113,17 @@ export default class KongAI extends Player{
                 }
             }
         });
-        if(activeAI)
-            return score * this.heuristicWeights["PawnKill"];
-        return score * this.heuristicWeights["PawnLost"];
+        return score * this.heuristicWeights["PawnKill"];
 
     }
-    calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus,activeAI){
+    calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus){
         let score = 0;
 
         if(prevPlayerStatus["Lion"] > currPlayerStatus["Lion"]){
             score++;
         }
 
-        if(activeAI)
-            return score * this.heuristicWeights["KingKill"];
-        return score * this.heuristicWeights["KingLost"];
+        return score * this.heuristicWeights["KingKill"];
     }
 
 
