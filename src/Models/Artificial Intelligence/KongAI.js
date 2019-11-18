@@ -61,9 +61,10 @@ export default class KongAI extends Player{
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
             stateSpace["board"] = movePieceBoard;
 
+            console.log(pawnClone.getTargets(movePieceBoard.grid));
             newBoardPieceMoves.push(stateSpace);
         }
-
+        
         // console.log(newBoardPieceMoves[0].PlayerTwo.ActivePawns[0].Position,newBoardPieceMoves[1].PlayerTwo.ActivePawns[0].Position);
         return newBoardPieceMoves;
     }

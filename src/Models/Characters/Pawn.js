@@ -59,7 +59,18 @@ export default class Pawn{
         this.Position = targetPos;
     }
 
-    getTargets(opponentPawns){
+    getTargets(boardGrid){
+        let targetTiles = [];
+        for(let dir of Object.keys(Direction)){
+            targetTiles = targetTiles.concat(this.getAvailableAttacks(dir));
+        }
+        let targets = [];
+        for(let tile in targetTiles){
+            if(boardGrid[tile.x][tile.y].Occupants){
+                targets.push(boardGrid[tile.x][tile.y].Occupants);
+            }
+        }
+        return [...new Set(targets)];
 
     }
 
