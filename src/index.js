@@ -4,6 +4,7 @@ import * as p5 from "p5";
 import {Terrains,Players,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
 import KongAI from './Models/Artificial Intelligence/KongAI.js';
+import { SlowBuffer } from 'buffer';
 
 const TileLength = 12;
 
@@ -11,15 +12,24 @@ export {TileLength};
 let s = (sk) => {  
     let game; 
     //let endTurnButton;
+    let img;
+
+    sk.preload = () =>{
+        img = sk.loadImage("../assets/africa.jpg");
+    }
+
     sk.setup = () =>{
         sk.createCanvas(700,700);
-        sk.background(0);
+        //sk.background(0);
         game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
-        game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
-        game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
-        game.tryPlaceTerrainTiles(new Position(0,4),1,4,Terrains.TREE);
-        game.tryPlaceTerrainTiles(new Position(11,4),1,4,Terrains.TREE);
+        game.generateTerrain();
+        
+        img.resize(700,700);
+        // game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
+        // game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
+        // game.tryPlaceTerrainTiles(new Position(0,4),1,4,Terrains.TREE);
+        // game.tryPlaceTerrainTiles(new Position(11,4),1,4,Terrains.TREE);
         // endTurnButton = createButton('End Turn');
         // endTurnButton.position(800, 600);
         // endTurnButton.mousePressed(endTurn);
@@ -30,7 +40,9 @@ let s = (sk) => {
     }
 
     sk.draw = () =>{
+        sk.image(img, 0, 0);
         game.show();
+        
         //endTurnButton.show();
     }
     
