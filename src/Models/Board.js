@@ -311,7 +311,7 @@ export default class Board{
         if(this.playAI){
             this.currentPlayer = this.PlayerTwo;
             this.PlayerTwo.updateBoard(this);
-            this.PlayerTwo.performAction();
+            this.PlayerTwo.GetActionStates();
             this.currentPlayer = this.PlayerOne;
         }
         else if(this.currentPlayer.Label == Players.ONE)

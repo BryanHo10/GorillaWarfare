@@ -14,6 +14,7 @@ export default class KongAI extends Player{
         }
         this.lookAheadDepth = 2;
         this.boardStatus = gameBoard;
+        this.KingPawn = "Lion";
         console.log("AI Active");
 
 
@@ -23,7 +24,7 @@ export default class KongAI extends Player{
 
     }
 
-    performAction(){
+    GetActionStates(){
         let depth = 0;
 
         let boardStates=[];
@@ -49,7 +50,8 @@ export default class KongAI extends Player{
             currentQueue = nextQueue;
             depth++;
         }
-        console.log(boardStates,"finished");
+        console.log(boardStates,"finish");
+        return boardStates;
     }
     getBoardStatePawnMove(pawn,board){
         let newBoardPieceMoves=[]
@@ -62,6 +64,7 @@ export default class KongAI extends Player{
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
 
             stateSpaceOrigin["board"] = movePieceBoard;
+            stateSpaceOrigin["score"] = this.measureWeights(board.PlayerTwo,movePieceBoard.PlayerTwo);
             newBoardPieceMoves.push(stateSpaceOrigin);
 
             let targets = movePieceBoard.selectedPawn.getTargets(movePieceBoard.grid);
@@ -72,7 +75,8 @@ export default class KongAI extends Player{
 
                 attackPieceBoard.attackTargetPawn(enemy.Position.x,enemy.Position.y);
 
-                stateSpace["board"] = movePieceBoard;
+                stateSpace["board"] = attackPieceBoard;
+                stateSpace["score"] = this.measureWeights(board.PlayerTwo,movePieceBoard.PlayerTwo);
                 newBoardPieceMoves.push(stateSpace);
             }
             
@@ -108,7 +112,7 @@ export default class KongAI extends Player{
     calculateDmgKingHeuristic(prevPlayerStatus,currPlayerStatus){
         let total = 0;
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
-            if(prevPlayerStatus.activePawn[i].pawnName == "Lion"){
+            if(prevPlayerStatus.activePawn[i].pawnName == this.KingPawn){
                 total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
                 break;
             }
@@ -120,7 +124,7 @@ export default class KongAI extends Player{
 
         let score = 0;
         Object.keys(currPlayerStatus.PawnStatus).map((pawnName)=>{
-            if(pawnName != "Lion"){
+            if(pawnName != this.KingPawn){
                 if(prevPlayerStatus[pawnName] > currPlayerStatus[pawnName]){
                     score++;
                 }
@@ -132,7 +136,7 @@ export default class KongAI extends Player{
     calculateKingKillHeuristic(prevPlayerStatus,currPlayerStatus){
         let score = 0;
 
-        if(prevPlayerStatus["Lion"] > currPlayerStatus["Lion"]){
+        if(prevPlayerStatus[this.KingPawn] > currPlayerStatus[this.KingPawn]){
             score++;
         }
 
