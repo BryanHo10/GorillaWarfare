@@ -1,5 +1,6 @@
 import Player from "../Player"
 import clonedeep from "lodash.clonedeep";
+import { Direction } from "../Properties";
 
 export default class KongAI extends Player{
     constructor(label,gameBoard){
@@ -61,7 +62,8 @@ export default class KongAI extends Player{
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
             stateSpace["board"] = movePieceBoard;
 
-            console.log(pawnClone.getTargets(movePieceBoard.grid));
+            console.log(pawn.getTargets(movePieceBoard.grid));
+            break;
             newBoardPieceMoves.push(stateSpace);
         }
         

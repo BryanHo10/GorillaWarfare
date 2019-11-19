@@ -61,16 +61,22 @@ export default class Pawn{
 
     getTargets(boardGrid){
         let targetTiles = [];
+        
         for(let dir of Object.keys(Direction)){
+            console.log(dir);
             targetTiles = targetTiles.concat(this.getAvailableAttacks(dir));
+            console.log(this.getAvailableAttacks(dir));
         }
+        console.log(targetTiles);
         let targets = [];
-        for(let tile in targetTiles){
-            if(boardGrid[tile.x][tile.y].Occupants){
-                targets.push(boardGrid[tile.x][tile.y].Occupants);
+        for(let tile of targetTiles){
+            console.log(tile);
+            let pawn = boardGrid[tile.x][tile.y].Occupants;
+            if(pawn && !targets.includes(pawn)){
+                targets.push(pawn);
             }
         }
-        return [...new Set(targets)];
+        return targets;
 
     }
 
