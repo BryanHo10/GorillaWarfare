@@ -54,20 +54,30 @@ export default class KongAI extends Player{
     getBoardStatePawnMove(pawn,board){
         let newBoardPieceMoves=[]
         for(let pos of board.getAvailableMoves(pawn)){
-            let stateSpace = {};
+            let stateSpaceOrigin = {};
             let movePieceBoard = clonedeep(board);
             let pawnClone = clonedeep(pawn);
             movePieceBoard.selectedPawn = pawnClone;
             movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
-            stateSpace["board"] = movePieceBoard;
 
-            console.log(pawn.getTargets(movePieceBoard.grid));
-            break;
-            newBoardPieceMoves.push(stateSpace);
+            stateSpaceOrigin["board"] = movePieceBoard;
+            newBoardPieceMoves.push(stateSpaceOrigin);
+
+            let targets = movePieceBoard.selectedPawn.getTargets(movePieceBoard.grid);
+
+            for(let enemy of targets){
+                let stateSpace = {};
+                let attackPieceBoard = clonedeep(movePieceBoard);
+
+                attackPieceBoard.attackTargetPawn(enemy.Position.x,enemy.Position.y);
+
+                stateSpace["board"] = movePieceBoard;
+                newBoardPieceMoves.push(stateSpace);
+            }
+            
         }
         
-        // console.log(newBoardPieceMoves[0].PlayerTwo.ActivePawns[0].Position,newBoardPieceMoves[1].PlayerTwo.ActivePawns[0].Position);
         return newBoardPieceMoves;
     }
 
