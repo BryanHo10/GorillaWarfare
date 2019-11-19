@@ -23,16 +23,83 @@ export default class KongAI extends Player{
 
     }
 
+    findOptimalState(){
+        let searchSpace = this.GetActionStates();
+        // Apply Score based on minimax 
+        this.applyMiniMaxScore(searchSpace,true);
+        
+        let indexOfMax = 0;
+        let currMax = searchSpace["score"];
+        // Locate the Optimal Board State
+        for(let i = 0; i < searchSpace.length; i++){
+            if(searchSpace[i]["score"] > currMax){
+                indexOfMax = i;
+                currMax = searchSpace[i]["score"];
+            }
+        }
+        delete searchSpace["children"][indexOfMax]["children"];
+        console.log(searchSpace["children"],indexOfMax);
+        return searchSpace["children"][indexOfMax]["board"];
+        
+    }
+    applyMiniMaxScore(root,toMaximize){
+        if(!root["children"])
+            return;
+
+        if(toMaximize){
+            for(let state of root["children"]){
+                this.applyMiniMaxScore(state,false);
+                if(state["children"])
+                    root["score"] = this.getMaxScore(state["children"]);
+            }
+                
+        }
+        else{
+            for(let state of root["children"]){
+                this.applyMiniMaxScore(state,true);
+                if(state["children"])
+                    root["score"] = this.getMinScore(state["children"]);
+            }
+        }
+        return;
+        
+    }
+    getMaxScore(childrenStates){
+
+        let currMax = childrenStates[0]["score"];
+        
+        // Locate the Optimal Board State
+        for(let i = 0; i < childrenStates.length; i++){
+            if(childrenStates[i]["score"] > currMax){
+                currMax = childrenStates[i]["score"];
+            }
+        }
+        return currMax;
+    }
+    getMinScore(childrenStates){
+
+        let currMin = childrenStates[0]["score"];
+        
+        // Locate the Optimal Board State
+        for(let i = 0; i < childrenStates.length; i++){
+            if(childrenStates[i]["score"] < currMin){
+                currMin = childrenStates[i]["score"];
+            }
+        }
+        return currMin;
+    }
     GetActionStates(){
         let depth = 0;
+        // Root Layer
+        let boardStates=clonedeep(this.boardStatus);
+        boardStates["children"]=[];
 
-        let boardStates=[];
         // First Layer 
         for( let pawn of this.boardStatus.PlayerTwo.ActivePawns){
-            boardStates = boardStates.concat(this.getBoardStatePawnMove(pawn,this.boardStatus));
+            boardStates["children"] = boardStates["children"].concat(this.getBoardStatePawnMove(pawn,this.boardStatus));
         } 
 
-        let currentQueue = boardStates;
+        let currentQueue = boardStates["children"];
         // Successive Layers
         while(depth+1 < this.lookAheadDepth){
             let nextQueue = [];
@@ -49,7 +116,6 @@ export default class KongAI extends Player{
             currentQueue = nextQueue;
             depth++;
         }
-        console.log(boardStates,"finish");
         return boardStates;
     }
     getBoardStatePawnMove(pawn,board){
@@ -62,11 +128,6 @@ export default class KongAI extends Player{
             movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
 
-            // Account for no-Attack Moves
-            stateSpaceOrigin["board"] = movePieceBoard;
-            stateSpaceOrigin["score"] = this.measureWeights(board.PlayerTwo,movePieceBoard.PlayerTwo);
-            newBoardPieceMoves.push(stateSpaceOrigin);
-
             let targets = movePieceBoard.selectedPawn.getTargets(movePieceBoard.grid);
 
             // Account for Attack Moves
@@ -77,9 +138,13 @@ export default class KongAI extends Player{
                 attackPieceBoard.attackTargetPawn(enemy.Position.x,enemy.Position.y);
 
                 stateSpace["board"] = attackPieceBoard;
-                stateSpace["score"] = this.measureWeights(board.PlayerTwo,movePieceBoard.PlayerTwo);
+                stateSpace["score"] = this.measureWeights(this.boardStatus.PlayerTwo,movePieceBoard.PlayerTwo);
                 newBoardPieceMoves.push(stateSpace);
             }
+            // Account for no-Attack Moves
+            stateSpaceOrigin["board"] = movePieceBoard;
+            stateSpaceOrigin["score"] = this.measureWeights(this.boardStatus.PlayerTwo,movePieceBoard.PlayerTwo);
+            newBoardPieceMoves.push(stateSpaceOrigin);
             
         }
         
