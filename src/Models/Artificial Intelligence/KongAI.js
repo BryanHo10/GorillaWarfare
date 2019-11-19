@@ -15,7 +15,6 @@ export default class KongAI extends Player{
         this.lookAheadDepth = 2;
         this.boardStatus = gameBoard;
         this.KingPawn = "Lion";
-        console.log("AI Active");
 
 
     } 
@@ -34,7 +33,7 @@ export default class KongAI extends Player{
         } 
 
         let currentQueue = boardStates;
-
+        // Successive Layers
         while(depth+1 < this.lookAheadDepth){
             let nextQueue = [];
 
@@ -63,12 +62,14 @@ export default class KongAI extends Player{
             movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
 
+            // Account for no-Attack Moves
             stateSpaceOrigin["board"] = movePieceBoard;
             stateSpaceOrigin["score"] = this.measureWeights(board.PlayerTwo,movePieceBoard.PlayerTwo);
             newBoardPieceMoves.push(stateSpaceOrigin);
 
             let targets = movePieceBoard.selectedPawn.getTargets(movePieceBoard.grid);
 
+            // Account for Attack Moves
             for(let enemy of targets){
                 let stateSpace = {};
                 let attackPieceBoard = clonedeep(movePieceBoard);
