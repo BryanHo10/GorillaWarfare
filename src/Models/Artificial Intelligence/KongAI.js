@@ -22,7 +22,14 @@ export default class KongAI extends Player{
         this.boardStatus = gameBoard;
 
     }
-
+    identifyDifference(prevStatus,currStatus){
+        for(let i=0;i<prevStatus.length;i++){
+            if(prevStatus[i].Position.x != currStatus[i].Position.x && 
+                prevStatus[i].Position.y != currStatus[i].Position.y){
+                    console.log(prevStatus[i],currStatus[i]);
+                }
+        }
+    }
     findOptimalState(){
         let searchSpace = this.GetActionStates();
         // Apply Score based on minimax 
@@ -36,9 +43,10 @@ export default class KongAI extends Player{
                 indexOfMax = i;
                 currMax = searchSpace[i]["score"];
             }
+            this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace["children"][i]["board"].PlayerTwo.ActivePawns);
         }
         delete searchSpace["children"][indexOfMax]["children"];
-        console.log(searchSpace["children"],indexOfMax);
+        this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace["children"][indexOfMax]["board"].PlayerTwo.ActivePawns);
         return searchSpace["children"][indexOfMax]["board"];
         
     }
@@ -49,6 +57,7 @@ export default class KongAI extends Player{
         if(toMaximize){
             for(let state of root["children"]){
                 this.applyMiniMaxScore(state,false);
+                this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
                 if(state["children"])
                     root["score"] = this.getMaxScore(state["children"]);
             }
@@ -127,7 +136,6 @@ export default class KongAI extends Player{
             movePieceBoard.selectedPawn = pawnClone;
             movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
-
             let targets = movePieceBoard.selectedPawn.getTargets(movePieceBoard.grid);
 
             // Account for Attack Moves
