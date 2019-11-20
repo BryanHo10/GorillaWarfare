@@ -1,6 +1,9 @@
 import {Terrains,Direction} from '../Properties.js';
 import Pawn from "./Pawn.js";
 import * as lib from "../../index";
+import * as p5addons from "../../../node_modules/p5/lib/addons/p5.dom";
+import Board from "./Board";
+
 
 export default class Chicken extends Pawn{
     constructor(x,y){
@@ -20,7 +23,8 @@ export default class Chicken extends Pawn{
         );
         this.currentColor = [255, 255, 128];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/chicken_temp.png");
+        this.sprite = p5addons.createImg("../../assets/Chicken.gif");
+        this.sprite.resize(Board.TILE_WIDTH, Board.TILE_WIDTH);
     }
     changeColor(){
         this.isActive = !this.isActive;

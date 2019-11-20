@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Board from "./Models/Board.js"
 import * as p5 from "p5";
+import * as p5addons from "../node_modules/p5/lib/addons/p5.dom.js";
 import {Terrains,Players,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
 import KongAI from './Models/Artificial Intelligence/KongAI.js';
@@ -12,20 +13,21 @@ export {TileLength};
 let s = (sk) => {  
     let game; 
     //let endTurnButton;
-    let img;
+    let gif;
 
     sk.preload = () =>{
-        img = sk.loadImage("../assets/africa.jpg");
+        //img = sk.loadImage("../assets/africa.jpg");
+        //gif = sk.createImg("../assets/Chicken.gif");
     }
 
     sk.setup = () =>{
         sk.createCanvas(700,700);
-        //sk.background(0);
+        sk.background(0);
         game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
         game.generateTerrain();
         
-        img.resize(700,700);
+        //img.resize(700,700);
         // game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
         // game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
         // game.tryPlaceTerrainTiles(new Position(0,4),1,4,Terrains.TREE);
@@ -35,12 +37,8 @@ let s = (sk) => {
         // endTurnButton.mousePressed(endTurn);
     }
 
-    sk.endTurn = () =>{
-        game.togglePlayerTurn();
-    }
-
     sk.draw = () =>{
-        sk.image(img, 0, 0);
+        //sk.image(img, 0, 0);
         game.show();
         
         //endTurnButton.show();
@@ -76,3 +74,4 @@ let s = (sk) => {
 
 const P5 = new p5(s);
 export {P5};
+export {p5addons};
