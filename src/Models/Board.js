@@ -428,7 +428,7 @@ export default class Board{
     movePawn(currentTile){
         this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
         this.unhighlightTiles();
-        if(currentTile.x != this.selectedTile.x || currentTile.y != this.selectedTile.y){
+        if((currentTile.x != this.selectedTile.x || currentTile.y != this.selectedTile.y) && !currentTile.Occupant){
             currentTile.Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
             currentTile.Occupant.Position.x = currentTile.x;
             currentTile.Occupant.Position.y = currentTile.y;

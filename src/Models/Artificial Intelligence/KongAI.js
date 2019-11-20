@@ -26,7 +26,7 @@ export default class KongAI extends Player{
         for(let i=0;i<prevStatus.length;i++){
             if(prevStatus[i].Position.x != currStatus[i].Position.x && 
                 prevStatus[i].Position.y != currStatus[i].Position.y){
-                    console.log(prevStatus[i],currStatus[i]);
+                    console.log(prevStatus[i].Position,currStatus[i].Position);
                 }
         }
     }
@@ -38,16 +38,17 @@ export default class KongAI extends Player{
         let indexOfMax = 0;
         let currMax = searchSpace["score"];
         // Locate the Optimal Board State
+        searchSpace = searchSpace["children"];
         for(let i = 0; i < searchSpace.length; i++){
             if(searchSpace[i]["score"] > currMax){
                 indexOfMax = i;
                 currMax = searchSpace[i]["score"];
             }
-            this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace["children"][i]["board"].PlayerTwo.ActivePawns);
+            // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace[i]["board"].PlayerTwo.ActivePawns);
         }
-        delete searchSpace["children"][indexOfMax]["children"];
-        this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace["children"][indexOfMax]["board"].PlayerTwo.ActivePawns);
-        return searchSpace["children"][indexOfMax]["board"];
+        // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace[indexOfMax]["board"].PlayerTwo.ActivePawns);
+        delete searchSpace[indexOfMax]["children"];
+        return searchSpace[indexOfMax]["board"];
         
     }
     applyMiniMaxScore(root,toMaximize){
@@ -57,7 +58,7 @@ export default class KongAI extends Player{
         if(toMaximize){
             for(let state of root["children"]){
                 this.applyMiniMaxScore(state,false);
-                this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
+                // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
                 if(state["children"])
                     root["score"] = this.getMaxScore(state["children"]);
             }
@@ -66,6 +67,7 @@ export default class KongAI extends Player{
         else{
             for(let state of root["children"]){
                 this.applyMiniMaxScore(state,true);
+                // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
                 if(state["children"])
                     root["score"] = this.getMinScore(state["children"]);
             }
@@ -129,6 +131,7 @@ export default class KongAI extends Player{
     }
     getBoardStatePawnMove(pawn,board){
         let newBoardPieceMoves=[]
+        console.log(board.getAvailableMoves(pawn));
         for(let pos of board.getAvailableMoves(pawn)){
             let stateSpaceOrigin = {};
             let movePieceBoard = clonedeep(board);
@@ -147,11 +150,13 @@ export default class KongAI extends Player{
 
                 stateSpace["board"] = attackPieceBoard;
                 stateSpace["score"] = this.measureWeights(this.boardStatus.PlayerTwo,movePieceBoard.PlayerTwo);
+                
                 newBoardPieceMoves.push(stateSpace);
             }
             // Account for no-Attack Moves
             stateSpaceOrigin["board"] = movePieceBoard;
             stateSpaceOrigin["score"] = this.measureWeights(this.boardStatus.PlayerTwo,movePieceBoard.PlayerTwo);
+            this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,stateSpaceOrigin["board"].PlayerTwo.ActivePawns);
             newBoardPieceMoves.push(stateSpaceOrigin);
             
         }
