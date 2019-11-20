@@ -27,6 +27,7 @@ export default class KongAI extends Player{
             if(prevStatus[i].Position.x != currStatus[i].Position.x && 
                 prevStatus[i].Position.y != currStatus[i].Position.y){
                     console.log(prevStatus[i].Position,currStatus[i].Position);
+                    return true;
                 }
         }
     }
@@ -35,20 +36,24 @@ export default class KongAI extends Player{
         // Apply Score based on minimax 
         this.applyMiniMaxScore(searchSpace,true);
         
-        let indexOfMax = 0;
+        let indicesOfMax = [];
         let currMax = searchSpace["score"];
         // Locate the Optimal Board State
         searchSpace = searchSpace["children"];
         for(let i = 0; i < searchSpace.length; i++){
-            if(searchSpace[i]["score"] > currMax){
-                indexOfMax = i;
+            if(searchSpace[i]["score"] == currMax){
+                indicesOfMax.push(i);
+            }else if(searchSpace[i]["score"] > currMax){
+                indicesOfMax = [];
+                indicesOfMax.push(i);
                 currMax = searchSpace[i]["score"];
             }
-            // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace[i]["board"].PlayerTwo.ActivePawns);
+            if (this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace[i]["board"].PlayerTwo.ActivePawns)){
+                return searchSpace[i]["board"];
+            }
         }
-        // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace[indexOfMax]["board"].PlayerTwo.ActivePawns);
-        delete searchSpace[indexOfMax]["children"];
-        return searchSpace[indexOfMax]["board"];
+        // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,searchSpace[indicesOfMax[Math.floor(Math.random()*(indicesOfMax.length-1))]]["board"].PlayerTwo.ActivePawns);
+        return searchSpace[indicesOfMax[Math.floor(Math.random()*(indicesOfMax.length-1))]]["board"];
         
     }
     applyMiniMaxScore(root,toMaximize){
@@ -116,6 +121,7 @@ export default class KongAI extends Player{
             let nextQueue = [];
 
             for(let state of currentQueue){
+                // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
                 let childrenStates = [];
                 for( let pawn of state["board"].PlayerTwo.ActivePawns){
                     childrenStates = childrenStates.concat(this.getBoardStatePawnMove(pawn,state["board"]));
@@ -127,25 +133,30 @@ export default class KongAI extends Player{
             currentQueue = nextQueue;
             depth++;
         }
+        // for(let state of boardStates["children"]){
+        //     this.identifyDifference(boardStates.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
+        // }
         return boardStates;
     }
     getBoardStatePawnMove(pawn,board){
         let newBoardPieceMoves=[]
-        console.log(board.getAvailableMoves(pawn));
         for(let pos of board.getAvailableMoves(pawn)){
+
             let stateSpaceOrigin = {};
             let movePieceBoard = clonedeep(board);
             let pawnClone = clonedeep(pawn);
             movePieceBoard.selectedPawn = pawnClone;
             movePieceBoard.selectedTile = movePieceBoard.grid[pawnClone.Position.x][pawnClone.Position.y];
             movePieceBoard.movePawn(movePieceBoard.grid[pos.x][pos.y]);
+            movePieceBoard.unhighlightTiles();
+            // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,movePieceBoard["board"].PlayerTwo.ActivePawns);
             let targets = movePieceBoard.selectedPawn.getTargets(movePieceBoard.grid);
 
             // Account for Attack Moves
             for(let enemy of targets){
                 let stateSpace = {};
                 let attackPieceBoard = clonedeep(movePieceBoard);
-
+                attackPieceBoard.showPawnAttack(pawnClone.Position.x,pawnClone.Position.y);
                 attackPieceBoard.attackTargetPawn(enemy.Position.x,enemy.Position.y);
 
                 stateSpace["board"] = attackPieceBoard;
@@ -156,11 +167,16 @@ export default class KongAI extends Player{
             // Account for no-Attack Moves
             stateSpaceOrigin["board"] = movePieceBoard;
             stateSpaceOrigin["score"] = this.measureWeights(this.boardStatus.PlayerTwo,movePieceBoard.PlayerTwo);
-            this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,stateSpaceOrigin["board"].PlayerTwo.ActivePawns);
+            // console.log("Add",pawn.Position,pos);
+            // this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,stateSpaceOrigin["board"].PlayerTwo.ActivePawns);
             newBoardPieceMoves.push(stateSpaceOrigin);
             
         }
-        
+        // console.log(newBoardPieceMoves);
+        // for(let state of newBoardPieceMoves){
+        //     this.identifyDifference(this.boardStatus.PlayerTwo.ActivePawns,state["board"].PlayerTwo.ActivePawns);
+        // }
+        // console.log("finish");
         return newBoardPieceMoves;
     }
 

@@ -45,6 +45,15 @@ export default class Board{
         this.currentPlayer = this.PlayerOne;
                                                 
     }
+    importBoard(board){
+        this.currentPlayer = board.currentPlayer;
+        this.grid=board.grid;
+        this.PlayerOne = board.PlayerOne;
+        this.PlayerTwo = board.PlayerTwo;
+        this.selectedPawn=null;
+        this.selectedTile = null;
+        this.unhighlightTiles();
+    }
     /**
      * Retrieves List of valid positions on turn
      * @return {Position[]} List of board positions
@@ -312,6 +321,9 @@ export default class Board{
             this.currentPlayer = this.PlayerTwo;
             this.PlayerTwo.updateBoard(this);
             let newBoard = this.PlayerTwo.findOptimalState();
+
+            this.importBoard(newBoard);
+
             this.unhighlightTiles();
             this.currentPlayer = this.PlayerOne;
         }
@@ -436,7 +448,8 @@ export default class Board{
         }
         this.selectedPawn = currentTile.Occupant;
         this.selectedTile = currentTile;
-        this.showPawnAttackDirection();
+        // if(this.playAI && this.currentPlayer.Label == Player.ONE)
+            this.showPawnAttackDirection();
        
         
     }
