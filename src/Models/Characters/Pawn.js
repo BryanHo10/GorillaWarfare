@@ -29,7 +29,6 @@ export default class Pawn{
 
     }
     getAvailableAttacks(direction){
-
         let possibleAttackTargets = [];
         switch(direction){
             case Direction.NORTH:
@@ -47,7 +46,6 @@ export default class Pawn{
             default:
                 break;
         }
-
         return possibleAttackTargets;
         
     }
@@ -59,7 +57,21 @@ export default class Pawn{
         this.Position = targetPos;
     }
 
-    getTargets(opponentPawns){
+    getTargets(boardGrid){
+        let targetTiles = [];
+        
+        for(let dir of Object.values(Direction)){
+            targetTiles = targetTiles.concat(this.getAvailableAttacks(dir));
+        }
+        let targets = [];
+        targetTiles = targetTiles.filter(pos => pos.x >= 0 && pos.y >=0 && pos.x <12 && pos.y <12);
+        for(let tile of targetTiles){
+            let pawn = boardGrid[tile.x][tile.y].Occupant;
+            if(pawn && !targets.includes(pawn) && pawn.Owner != this.Owner){
+                targets.push(pawn);
+            }
+        }
+        return targets;
 
     }
 

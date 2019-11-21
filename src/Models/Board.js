@@ -45,6 +45,15 @@ export default class Board{
         this.currentPlayer = this.PlayerOne;
                                                 
     }
+    importBoard(board){
+        this.currentPlayer = board.currentPlayer;
+        this.grid=board.grid;
+        this.PlayerOne = board.PlayerOne;
+        this.PlayerTwo = board.PlayerTwo;
+        this.selectedPawn=null;
+        this.selectedTile = null;
+        this.unhighlightTiles();
+    }
     /**
      * Retrieves List of valid positions on turn
      * @return {Position[]} List of board positions
@@ -294,11 +303,20 @@ export default class Board{
             if(this.currentPlayer.Label == Players.ONE){
                 this.PlayerTwo.PawnCount--;
                 this.PlayerTwo.PawnStatus[pawnName]--;
+                let removeIndex = this.PlayerTwo.ActivePawns.indexOf(this.grid[tileX][tileY].Occupant);
+                if(removeIndex > -1){
+                    this.PlayerTwo.ActivePawns.splice(removeIndex,1);
+                }
             }
             else{
                 this.PlayerOne.PawnCount--;
                 this.PlayerOne.PawnStatus[pawnName]--;
+                let removeIndex = this.PlayerOne.ActivePawns.indexOf(this.grid[tileX][tileY].Occupant);
+                if(removeIndex > -1){
+                    this.PlayerOne.ActivePawns.splice(removeIndex,1);
+                }
             }
+
             this.grid[tileX][tileY].Occupant = null;
 
         }
@@ -311,7 +329,11 @@ export default class Board{
         if(this.playAI){
             this.currentPlayer = this.PlayerTwo;
             this.PlayerTwo.updateBoard(this);
-            this.PlayerTwo.performAction();
+            let newBoard = this.PlayerTwo.findOptimalState();
+
+            this.importBoard(newBoard);
+
+            this.unhighlightTiles();
             this.currentPlayer = this.PlayerOne;
         }
         else if(this.currentPlayer.Label == Players.ONE)
@@ -427,7 +449,7 @@ export default class Board{
     movePawn(currentTile){
         this.gameStatus = GameStates.HIGHLIGHT_ATTACK;
         this.unhighlightTiles();
-        if(currentTile.x != this.selectedTile.x || currentTile.y != this.selectedTile.y){
+        if((currentTile.x != this.selectedTile.x || currentTile.y != this.selectedTile.y) && !currentTile.Occupant){
             currentTile.Occupant = this.grid[this.selectedTile.x][this.selectedTile.y].Occupant;
             currentTile.Occupant.Position.x = currentTile.x;
             currentTile.Occupant.Position.y = currentTile.y;
@@ -435,7 +457,8 @@ export default class Board{
         }
         this.selectedPawn = currentTile.Occupant;
         this.selectedTile = currentTile;
-        this.showPawnAttackDirection();
+        // if(this.playAI && this.currentPlayer.Label == Player.ONE)
+            this.showPawnAttackDirection();
        
         
     }
