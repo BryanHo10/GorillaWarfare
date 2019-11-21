@@ -303,11 +303,20 @@ export default class Board{
             if(this.currentPlayer.Label == Players.ONE){
                 this.PlayerTwo.PawnCount--;
                 this.PlayerTwo.PawnStatus[pawnName]--;
+                let removeIndex = this.PlayerTwo.ActivePawns.indexOf(this.grid[tileX][tileY].Occupant);
+                if(removeIndex > -1){
+                    this.PlayerTwo.ActivePawns.splice(removeIndex,1);
+                }
             }
             else{
                 this.PlayerOne.PawnCount--;
                 this.PlayerOne.PawnStatus[pawnName]--;
+                let removeIndex = this.PlayerOne.ActivePawns.indexOf(this.grid[tileX][tileY].Occupant);
+                if(removeIndex > -1){
+                    this.PlayerOne.ActivePawns.splice(removeIndex,1);
+                }
             }
+
             this.grid[tileX][tileY].Occupant = null;
 
         }
