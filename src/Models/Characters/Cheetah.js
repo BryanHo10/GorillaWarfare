@@ -20,7 +20,7 @@ export default class Cheetah extends Pawn{
         );
         this.currentColor = [255, 128, 0];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/cheetah_temp.png");
+        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Cheetah.gif");
         
     }
 

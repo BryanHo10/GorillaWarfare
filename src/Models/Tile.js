@@ -29,10 +29,10 @@ export default class Tile{
         else{
             switch(this.Terrain){
                 case Terrains.GRASSLANDS:
-                    lib.P5.fill(190, 162, 61);
+                    lib.P5.loadImage("../src/Models/Characters/Sprites/Grasslands.gif");
                     break;
                 case Terrains.TREE:
-                    lib.P5.fill(79, 172, 79);
+                    lib.P5.loadImage("../src/Models/Characters/Sprites/Trees.gif");
                     break;
                 case Terrains.LAKE:
                     lib.P5.fill(81, 170, 164);
