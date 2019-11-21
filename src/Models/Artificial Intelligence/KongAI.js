@@ -85,7 +85,7 @@ export default class KongAI extends Player{
         let currMax = childrenStates[0]["score"];
         
         // Locate the Optimal Board State
-        for(let i = 0; i < childrenStates.length; i++){
+        for(let i = 1; i < childrenStates.length-1; i++){
             if(childrenStates[i]["score"] > currMax){
                 currMax = childrenStates[i]["score"];
             }
@@ -97,7 +97,7 @@ export default class KongAI extends Player{
         let currMin = childrenStates[0]["score"];
         
         // Locate the Optimal Board State
-        for(let i = 0; i < childrenStates.length; i++){
+        for(let i = 1; i < childrenStates.length-1; i++){
             if(childrenStates[i]["score"] < currMin){
                 currMin = childrenStates[i]["score"];
             }

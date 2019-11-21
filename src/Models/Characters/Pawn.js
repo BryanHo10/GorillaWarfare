@@ -66,8 +66,8 @@ export default class Pawn{
         let targets = [];
         targetTiles = targetTiles.filter(pos => pos.x >= 0 && pos.y >=0 && pos.x <12 && pos.y <12);
         for(let tile of targetTiles){
-            let pawn = boardGrid[tile.x][tile.y].Occupants;
-            if(pawn && !targets.includes(pawn) && pawn.Occupants.Owner != this.Owner){
+            let pawn = boardGrid[tile.x][tile.y].Occupant;
+            if(pawn && !targets.includes(pawn) && pawn.Owner != this.Owner){
                 targets.push(pawn);
             }
         }
