@@ -20,7 +20,7 @@ export default class Lion extends Pawn{
         );
         this.currentColor = [255, 128, 64];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/lion_temp.png");
+        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Lion.png");
     }
     changeColor(){
         this.isActive = !this.isActive;
