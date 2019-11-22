@@ -8,6 +8,7 @@ export default class Tile{
         this.w=w; 
         this.Occupant = Occupant;
         this.Terrain = Terrains.GRASSLANDS;
+        this.TerrainImg = lib.P5.loadImage("../src/Models/Characters/Sprites/Grasslands.png");
         this.isHighlight=false;
     }
     /**
@@ -15,39 +16,30 @@ export default class Tile{
      * @param {Terrains} input 
      */
     setTerrain(input){
-        this.Terrain = input;
+
+        switch(input){
+            case Terrains.TREE:
+                this.Terrain = Terrains.TREE;
+                this.TerrainImg = lib.P5.loadImage("../src/Models/Characters/Sprites/Trees.png");
+                break;
+            default:
+                lib.P5.fill(127);
+                break;
+        }
     }
 
     show(){
-        
         if(this.Occupant){
             this.Occupant.show();
             lib.P5.stroke(255);
             
         }
-        
-        else{
-            switch(this.Terrain){
-                case Terrains.GRASSLANDS:
-                    lib.P5.loadImage("../src/Models/Characters/Sprites/Grasslands.gif");
-                    break;
-                case Terrains.TREE:
-                    lib.P5.loadImage("../src/Models/Characters/Sprites/Trees.gif");
-                    break;
-                case Terrains.LAKE:
-                    lib.P5.fill(81, 170, 164);
-                    break;
-                default:
-                    lib.P5.fill(127);
-                    break;
-            }
-            
-            lib.P5.stroke(255);
-        }
+
         if(this.isHighlight){
             lib.P5.stroke(0);
         }
         lib.P5.rect(this.x*this.w,this.y*this.w,this.w,this.w);
+        lib.P5.image(this.TerrainImg,this.x*this.w,this.y*this.w,this.w,this.w);
         if(this.Occupant){
             lib.P5.image(this.Occupant.sprite,this.x*this.w,this.y*this.w,this.w,this.w);
         }

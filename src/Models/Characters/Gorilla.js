@@ -20,7 +20,7 @@ export default class Gorilla extends Pawn{
         );
         this.currentColor = [106, 106, 106];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Gorilla.gif");
+        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Gorilla.png");
     }
     changeColor(){
         this.isActive = !this.isActive;

@@ -20,7 +20,7 @@ export default class Chicken extends Pawn{
         );
         this.currentColor = [255, 255, 128];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Chicken.gif");
+        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Chicken.png");
     }
     changeColor(){
         this.isActive = !this.isActive;

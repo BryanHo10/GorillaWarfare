@@ -21,7 +21,7 @@ export default class Elephant extends Pawn{
         );
         this.currentColor = [128, 64, 64];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Elephant.gif");
+        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Elephant.png");
     }
     getAvailableAttacks(direction){
 
