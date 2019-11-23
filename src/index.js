@@ -18,7 +18,7 @@ let s = (sk) => {
 
     sk.setup = () =>{
         canvas = sk.createCanvas(700,700);
-        //canvas.position(300, 300);
+        canvas.center();
         sk.background(0);
         game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
