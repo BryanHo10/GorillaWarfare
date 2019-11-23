@@ -16,8 +16,10 @@ export default class Lion extends Pawn{
             8,                                  // Health Points
             3,                                  // Damage
             1,                                  // Step Count
-            [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
+            [Terrains.TREE,Terrains.GRASSLANDS], // Allowed Terrains
+            10                                  // Weight
         );
+        
         this.currentColor = [255, 128, 64];
         this.isActive = false;
         this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Lion.png");

@@ -8,9 +8,9 @@ export default class KongAI extends Player{
         this.heuristicWeights={
             // Maximize
             "DmgDealt":1,
-            "DmgKing":1,
-            "PawnKill":1,
-            "KingKill":1,
+            "DmgKing":5,
+            "PawnKill":10,
+            "KingKill":100,
         }
         this.lookAheadDepth = 2;
         this.boardStatus = gameBoard;
@@ -201,6 +201,7 @@ export default class KongAI extends Player{
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
             
             total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
+            total *= currPlayerStatus.activePawn[i].weight;
         }
         return total * this.heuristicWeights["DmgDealt"];
     }
@@ -209,6 +210,7 @@ export default class KongAI extends Player{
         for(var i = 0; i < prevPlayerStatus.pawnCount; i++){
             if(prevPlayerStatus.activePawn[i].pawnName == this.KingPawn){
                 total += prevPlayerStatus.activePawn[i].HealthPoints - currPlayerStatus.activePawn[i].HealthPoints;
+                total *= currPlayerStatus.activePawn[i].weight;
                 break;
             }
 
@@ -237,13 +239,4 @@ export default class KongAI extends Player{
 
         return score * this.heuristicWeights["KingKill"];
     }
-
-
-    movePawn(targetPosition){
-
-    }
-    attackPawn(attackingPawn,targetPawn){
-        
-    }
-
 }

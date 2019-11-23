@@ -17,7 +17,8 @@ export default class Elephant extends Pawn{
             12,                                  // Health Points
             2,                                  // Damage
             1,                                  // Step Count
-            [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
+            [Terrains.TREE,Terrains.GRASSLANDS], // Allowed Terrains
+            4                                   // Weight
         );
         this.currentColor = [128, 64, 64];
         this.isActive = false;

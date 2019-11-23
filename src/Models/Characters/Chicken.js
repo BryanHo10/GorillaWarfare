@@ -18,7 +18,8 @@ export default class Chicken extends Pawn{
             5,                                  // Health Points
             2,                                  // Damage
             1,                                  // Step Count
-            [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
+            [Terrains.TREE,Terrains.GRASSLANDS], // Allowed Terrains
+            1                                   // Weight
         );
         this.currentColor = [255, 255, 128];
         this.isActive = false;

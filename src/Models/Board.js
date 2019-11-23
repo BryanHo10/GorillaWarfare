@@ -10,6 +10,7 @@ import {Direction,Players,GameStates,Terrains} from "./Properties";
 import Player from "./Player";
 import * as lib from "../index";
 import KongAI from "./Artificial Intelligence/KongAI.js";
+import { exists } from "fs";
 
 export default class Board{
     constructor(boardWidth,boardHeight,rowCount,playAI){
@@ -61,7 +62,6 @@ export default class Board{
         let tileX = Math.floor(x/this.TILE_WIDTH);
         let tileY = Math.floor(y/this.TILE_WIDTH);
         let piece = this.grid[tileX][tileY].Occupant;
-        console.log(piece)
         if(!piece){
             return;
         }
@@ -318,6 +318,12 @@ export default class Board{
         }
         
     }
+    endGame(winner){
+        document.getElementById('output').style.fontSize = "24px";
+        document.getElementById('output').innerHTML = 'Player ' + winner.Label + ' Wins!';
+        //setTimeout(document.location.reload(),500);
+        
+    }
     /**
      * Removes Pawn if Health Points are depleted, updating Player's Pawn Status
      * @param {number} tileX 
@@ -341,6 +347,17 @@ export default class Board{
                 if(removeIndex > -1){
                     this.PlayerOne.ActivePawns.splice(removeIndex,1);
                 }
+            }
+            if(pawnName instanceof Lion){
+                
+                let winner;
+                if(this.grid[tileX][tileY].Occupant.Owner == Players.ONE){
+                    winner = Players.TWO;
+                }
+                else{
+                    winner = Players.ONE;
+                }
+                endGame(winner);
             }
 
             this.grid[tileX][tileY].Occupant = null;

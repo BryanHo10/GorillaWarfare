@@ -16,7 +16,8 @@ export default class Gorilla extends Pawn{
             10,                                  // Health Points
             4,                                  // Damage
             2,                                  // Step Count
-            [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
+            [Terrains.TREE,Terrains.GRASSLANDS],// Allowed Terrains
+            5                                   // Weight
         );
         this.currentColor = [106, 106, 106];
         this.isActive = false;

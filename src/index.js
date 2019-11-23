@@ -21,16 +21,18 @@ let s = (sk) => {
         img = sk.createImg('../assets/gorillawarfare-logo2.png');
         //img.resize(75,0);
         img.position(sk.windowWidth/4 + 18, 0);
+        //img.mousePressed(window.location.reload());
         //img.center('horizontal');
         
         canvas = sk.createCanvas(700,700);
-        canvas.position(0, 400);
-        canvas.center('horizontal');
+        canvas.position(300, 400);
+        //canvas.center('horizontal');
         sk.background(0);
         game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
         game.generateTerrain();
         bgm = sk.createAudio("../assets/Andy's-Theme.m4a");
+        bgm.volume(0.5);
         bgm.autoplay(true);
         bgm.loop(true);
     }
@@ -45,9 +47,9 @@ let s = (sk) => {
     }
 
     sk.mouseClicked = () =>{
+        game.endGame(game.PlayerOne);
         if(sk.mouseX <700 && sk.mouseX >0){
             if(sk.mouseY <700 && sk.mouseY >0){
-
                 switch(game.gameStatus){
                     case GameStates.HIGHLIGHT_MOVE:
                     case GameStates.MOVE:

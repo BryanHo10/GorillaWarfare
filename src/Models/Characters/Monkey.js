@@ -17,8 +17,10 @@ export default class Monkey extends Pawn{
             4,                                  // Health Points
             1,                                  // Damage
             1,                                  // Step Count
-            [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
+            [Terrains.TREE,Terrains.GRASSLANDS], // Allowed Terrains
+            2                                   // Weight
         );
+        this.weight = 2;
         this.currentColor = [20, 204, 255];
         this.isActive = false;
         this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Monkey.png");

@@ -1,7 +1,7 @@
 export const Terrains = {
     TREE: 0,
     GRASSLANDS: 1,
-    LAKE: 2
+    ROCK: 2
 }
 export const GameStates = {
     HIGHLIGHT_ATTACK:0,

@@ -16,7 +16,8 @@ export default class Cheetah extends Pawn{
             6,                                  // Health Points
             2,                                  // Damage
             2,                                  // Step Count
-            [Terrains.TREE,Terrains.GRASSLANDS] // Allowed Terrains
+            [Terrains.TREE,Terrains.GRASSLANDS], // Allowed Terrains
+            3                                   // Weight
         );
         this.currentColor = [255, 128, 0];
         this.isActive = false;

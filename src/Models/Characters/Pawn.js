@@ -3,7 +3,7 @@ import Position from '../Position';
 import * as lib from '../../index';
 
 export default class Pawn{
-    constructor(x,y,HealthPoints,Damage,StepCount,AllowedTerrains){
+    constructor(x,y,HealthPoints,Damage,StepCount,AllowedTerrains,weight){
         this.Position = new Position(x,y);
         this.HealthPoints = HealthPoints;
         this.Damage = Damage;
@@ -13,7 +13,7 @@ export default class Pawn{
         this.Owner = Players.ONE;
         this.isActive = false;
         this.currentColor = [255, 204, 0];
-
+        this.weight = weight;
     }
 
     

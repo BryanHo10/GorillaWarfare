@@ -1,5 +1,5 @@
 import * as lib from "../index";
-import {Terrains} from "./Properties";
+import {Terrains, Players} from "./Properties";
 
 
 export default class Tile{
@@ -23,6 +23,10 @@ export default class Tile{
                 this.Terrain = Terrains.TREE;
                 this.TerrainImg = lib.P5.loadImage("../src/Models/Characters/Sprites/Trees.png");
                 break;
+            case Terrains.ROCK:
+                this.Terrain = Terrains.ROCK;
+                this.TerrainImg = lib.P5.loadImage("../src/Models/Characters/Sprites/Rocks.png");
+                break;
             default:
                 lib.P5.fill(127);
                 break;
@@ -31,9 +35,19 @@ export default class Tile{
 
     show(){
         if(this.Occupant){
-            this.Occupant.show(); 
+            this.Occupant.show();
+            if(this.Occupant.Owner == Players.ONE){
+                lib.P5.stroke('blue');
+            }
+            else if(this.Occupant.Owner == Players.TWO){
+                lib.P5.stroke('red');
+            }
+            lib.P5.strokeWeight(3);
         }
-        lib.P5.stroke(255);
+        else{
+            lib.P5.stroke('white');
+            lib.P5.strokeWeight(1);
+        }
         if(this.isHighlight){
             lib.P5.stroke(0);
         }
