@@ -30,11 +30,9 @@ export default class Tile{
 
     show(){
         if(this.Occupant){
-            this.Occupant.show();
-            lib.P5.stroke(255);
-            
+            this.Occupant.show(); 
         }
-
+        lib.P5.stroke(255);
         if(this.isHighlight){
             lib.P5.stroke(0);
         }

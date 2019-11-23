@@ -18,7 +18,7 @@ export default class Pawn{
 
     // function to output pawn info into infoBox
     showInfo(){
-        document.write("Owner: " + this.Owner + "\n"
+        lib.P5.createDiv("Owner: " + this.Owner + "\n"
                      + "Unit Type: " + typeof(this) + "\n"
                      + "HP: " + this.HealthPoints + "\n"
                      + "Damage: " + this.Damage + "\n"
