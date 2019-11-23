@@ -54,6 +54,23 @@ export default class Board{
         this.selectedTile = null;
         this.unhighlightTiles();
     }
+
+    // function to output pawn info into infoBox
+    showInfo(x,y){
+        
+        let tileX = Math.floor(x/this.TILE_WIDTH);
+        let tileY = Math.floor(y/this.TILE_WIDTH);
+        let piece = this.grid[tileX][tileY].Occupant;
+        console.log(piece)
+        if(!piece){
+            return;
+        }
+        document.getElementById('output').innerHTML = 'Owner: Player ' + piece.Owner + '<br>Unit Type: ' + piece.constructor.name
+        + '<br>HP: ' + piece.HealthPoints 
+        + '<br>Damage: ' + piece.Damage 
+        + '<br>Moves: ' + piece.StepCount + "</p>";
+    }
+
     /**
      * Retrieves List of valid positions on turn
      * @return {Position[]} List of board positions

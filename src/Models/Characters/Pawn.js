@@ -16,14 +16,7 @@ export default class Pawn{
 
     }
 
-    // function to output pawn info into infoBox
-    showInfo(){
-        lib.P5.createDiv("Owner: " + this.Owner + "\n"
-                     + "Unit Type: " + typeof(this) + "\n"
-                     + "HP: " + this.HealthPoints + "\n"
-                     + "Damage: " + this.Damage + "\n"
-                     + "Moves: " + this.StepCount + "\n");
-    }
+    
     /**
      * Target's HealthPoints decrement by Damage of current object
      * @param {Pawn} target 
