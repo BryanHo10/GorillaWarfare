@@ -1,42 +1,45 @@
 import _ from 'lodash';
 import Board from "./Models/Board.js"
 import * as p5 from "p5";
+
 import {Terrains,Players,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
 import KongAI from './Models/Artificial Intelligence/KongAI.js';
+import { SlowBuffer } from 'buffer';
 
 const TileLength = 12;
 
 export {TileLength};
+
 let s = (sk) => {  
+    let canvas;
     let game; 
-    //let endTurnButton;
+    let bgm;
+
     sk.setup = () =>{
-        sk.createCanvas(700,700);
+        canvas = sk.createCanvas(700,700);
+        //canvas.position(300, 300);
         sk.background(0);
         game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
-        game.tryPlaceTerrainTiles(new Position(2,4),2,4,Terrains.LAKE);  
-        game.tryPlaceTerrainTiles(new Position(8,4),2,4,Terrains.LAKE);
-        game.tryPlaceTerrainTiles(new Position(0,4),1,4,Terrains.TREE);
-        game.tryPlaceTerrainTiles(new Position(11,4),1,4,Terrains.TREE);
-        // endTurnButton = createButton('End Turn');
-        // endTurnButton.position(800, 600);
-        // endTurnButton.mousePressed(endTurn);
-    }
-
-    sk.endTurn = () =>{
-        game.togglePlayerTurn();
+        game.generateTerrain();
+        bgm = sk.createAudio("../assets/Andy's-Theme.m4a");
+        bgm.autoplay(true);
+        bgm.loop(true);
     }
 
     sk.draw = () =>{
+        if(sk.mouseX <700 && sk.mouseX >0){
+            if(sk.mouseY <700 && sk.mouseY >0){
+                game.showInfo(sk.mouseX, sk.mouseY);
+            }
+        }
         game.show();
-        //endTurnButton.show();
     }
-    
+
     sk.mouseClicked = () =>{
-        if(sk.mouseX <=700 && sk.mouseX >=0){
-            if(sk.mouseY <=700 && sk.mouseY >=0){
+        if(sk.mouseX <700 && sk.mouseX >0){
+            if(sk.mouseY <700 && sk.mouseY >0){
 
                 switch(game.gameStatus){
                     case GameStates.HIGHLIGHT_MOVE:
@@ -52,15 +55,11 @@ let s = (sk) => {
                     default:
                         break;
                 }
-                
-            }
-                
+            }  
         }
-        
-        
     }
 }
 
-
 const P5 = new p5(s);
 export {P5};
+

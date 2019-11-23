@@ -21,7 +21,7 @@ export default class Monkey extends Pawn{
         );
         this.currentColor = [20, 204, 255];
         this.isActive = false;
-        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/monkey_temp.png");
+        this.sprite = lib.P5.loadImage("../src/Models/Characters/Sprites/Monkey.png");
     }
     getAvailableAttacks(direction){
         let xRange = 0;

@@ -15,6 +15,8 @@ export default class Pawn{
         this.currentColor = [255, 204, 0];
 
     }
+
+    
     /**
      * Target's HealthPoints decrement by Damage of current object
      * @param {Pawn} target 

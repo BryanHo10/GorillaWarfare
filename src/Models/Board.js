@@ -6,7 +6,7 @@ import Elephant from "./Characters/Elephant"
 import Chicken from "./Characters/Chicken";
 import Cheetah from "./Characters/Cheetah"
 import Position from "./Position";
-import {Direction,Players,GameStates} from "./Properties";
+import {Direction,Players,GameStates,Terrains} from "./Properties";
 import Player from "./Player";
 import * as lib from "../index";
 import KongAI from "./Artificial Intelligence/KongAI.js";
@@ -54,6 +54,23 @@ export default class Board{
         this.selectedTile = null;
         this.unhighlightTiles();
     }
+
+    // function to output pawn info into infoBox
+    showInfo(x,y){
+        
+        let tileX = Math.floor(x/this.TILE_WIDTH);
+        let tileY = Math.floor(y/this.TILE_WIDTH);
+        let piece = this.grid[tileX][tileY].Occupant;
+        console.log(piece)
+        if(!piece){
+            return;
+        }
+        document.getElementById('output').innerHTML = 'Owner: Player ' + piece.Owner + '<br>Unit Type: ' + piece.constructor.name
+        + '<br>HP: ' + piece.HealthPoints 
+        + '<br>Damage: ' + piece.Damage 
+        + '<br>Moves: ' + piece.StepCount + "</p>";
+    }
+
     /**
      * Retrieves List of valid positions on turn
      * @return {Position[]} List of board positions
@@ -136,6 +153,15 @@ export default class Board{
             }
         }
         return true;
+    }
+
+    generateTerrain(){
+        // generate a random number of trees
+        let numTrees = Math.floor(Math.random() * 30) + 15;
+        for(let i = 0; i < numTrees; i++){
+            this.grid[Math.floor(Math.random() * this.ROW_SIZE)][Math.floor(Math.random() * this.COL_SIZE)].setTerrain(Terrains.TREE);
+        }
+
     }
     /**
      * Checks if the Position is within Board boundaries
