@@ -15,10 +15,16 @@ let s = (sk) => {
     let canvas;
     let game; 
     let bgm;
+    let img;
 
     sk.setup = () =>{
+        img = sk.createImg('../assets/gorillawarfare-logo.png');
+        img.position(sk.windowWidth/4 -45, 0);
+        
+        
         canvas = sk.createCanvas(700,700);
-        canvas.center();
+        canvas.position(0, 510);
+        canvas.center('horizontal');
         sk.background(0);
         game = new Board(700,700,TileLength,true);  
         game.createNewGrid();
