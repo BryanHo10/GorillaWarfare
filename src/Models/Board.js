@@ -140,16 +140,12 @@ export default class Board{
 
     generateTerrain(){
         // generate a random number of trees
-        let randX;
-        let randY;
         let numTrees = Math.floor(Math.random() * 30) + 15;
         for(let i = 0; i < numTrees; i++){
-            randX = Math.floor(Math.random() * this.ROW_SIZE);
-            randY = Math.floor(Math.random() * this.COL_SIZE);
-            this.grid[randX][randY].setTerrain(Terrains.TREE);
+            this.grid[Math.floor(Math.random() * this.ROW_SIZE)][Math.floor(Math.random() * this.COL_SIZE)].setTerrain(Terrains.TREE);
         }
-    }
 
+    }
     /**
      * Checks if the Position is within Board boundaries
      * @param {Position} position 

@@ -1,6 +1,9 @@
 import {Terrains,Direction} from '../Properties.js';
 import Pawn from "./Pawn.js";
 import * as lib from "../../index";
+import * as p5addons from "../../../node_modules/p5/lib/addons/p5.dom";
+import Board from "./Board";
+
 
 export default class Chicken extends Pawn{
     constructor(x,y){

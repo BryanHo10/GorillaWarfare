@@ -1,5 +1,7 @@
 import * as lib from "../index";
+import * as p5addons from "../../node_modules/p5/lib/addons/p5.dom.js";
 import {Terrains} from "./Properties";
+
 
 export default class Tile{
     constructor(x,y,w,Occupant){
@@ -39,7 +41,8 @@ export default class Tile{
         lib.P5.rect(this.x*this.w,this.y*this.w,this.w,this.w);
         lib.P5.image(this.TerrainImg,this.x*this.w,this.y*this.w,this.w,this.w);
         if(this.Occupant){
-            lib.P5.image(this.Occupant.sprite,this.x*this.w,this.y*this.w,this.w,this.w);
+            // lib.P5.image(this.Occupant.sprite,this.x*this.w,this.y*this.w,this.w,this.w);
+           p5addons.position(this.Occupant.sprite,this.x*this.w,this.y*this.w);
         }
         
         

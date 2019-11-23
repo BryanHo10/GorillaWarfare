@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import Board from "./Models/Board.js"
 import * as p5 from "p5";
+import * as p5addons from "../node_modules/p5/lib/addons/p5.dom.js";
 import {Terrains,Players,GameStates} from "./Models/Properties";
 import Position from "./Models/Position";
 import KongAI from './Models/Artificial Intelligence/KongAI.js';
+import { SlowBuffer } from 'buffer';
 
 const TileLength = 12;
 
@@ -17,6 +19,13 @@ let s = (sk) => {
     let infoBox;
     let bgm;
     //let endTurnButton;
+    let gif;
+
+    sk.preload = () =>{
+        //img = sk.loadImage("../assets/africa.jpg");
+        //gif = sk.createImg("../assets/Chicken.gif");
+    }
+
     sk.setup = () =>{
         canvas = sk.createCanvas(700,700);
         //canvas.position(300, 300);
@@ -33,11 +42,8 @@ let s = (sk) => {
         // endTurnButton.mousePressed(endTurn);
     }
 
-    sk.endTurn = () =>{
-        game.togglePlayerTurn();
-    }
-
     sk.draw = () =>{
+        //sk.image(img, 0, 0);
         game.show();
         //sk.image(infoBox,100,100);
         //endTurnButton.show();
@@ -86,3 +92,4 @@ let i = (ik) => {
 
 const P5 = new p5(s);
 export {P5};
+export {p5addons};
