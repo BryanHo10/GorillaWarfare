@@ -18,12 +18,13 @@ let s = (sk) => {
     let img;
 
     sk.setup = () =>{
-        img = sk.createImg('../assets/gorillawarfare-logo.png');
-        img.position(sk.windowWidth/4 -45, 0);
-        
+        img = sk.createImg('../assets/gorillawarfare-logo2.png');
+        //img.resize(75,0);
+        img.position(sk.windowWidth/4 + 18, 0);
+        //img.center('horizontal');
         
         canvas = sk.createCanvas(700,700);
-        canvas.position(0, 510);
+        canvas.position(0, 400);
         canvas.center('horizontal');
         sk.background(0);
         game = new Board(700,700,TileLength,true);  
